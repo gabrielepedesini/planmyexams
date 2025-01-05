@@ -1,23 +1,45 @@
+// const exams = [
+//     [
+//         { name: "Ingegneria del SW", date: new Date("2025-01-13") },
+//         { name: "Ingegneria del SW", date: new Date("2025-01-31") }
+//     ],
+//     [
+//         { name: "Elettronica", date: new Date("2025-01-16") },
+//         { name: "Elettronica", date: new Date("2025-02-07") }
+//     ],
+//     [
+//         { name: "Basi Dati", date: new Date("2025-01-20") },
+//         { name: "Basi Dati", date: new Date("2025-02-03") }
+//     ],
+//     [
+//         { name: "Reti Logiche", date: new Date("2025-01-24") },
+//         { name: "Reti Logiche", date: new Date("2025-02-14") }
+//     ],
+//     [
+//         { name: "Sistemi Informativi", date: new Date("2025-01-27") },
+//         { name: "Sistemi Informativi", date: new Date("2025-02-11") }
+//     ]
+// ];
+
 const exams = [
     [
-        { name: "Ingegneria del SW", date: new Date("2025-01-13") },
-        { name: "Ingegneria del SW", date: new Date("2025-01-31") }
+        { name: "Biochimica Applicata", date: new Date("2025-02-05") },
+        { name: "Biochimica Applicata", date: new Date("2025-02-19") },
+        { name: "Biochimica Applicata", date: new Date("2025-05-07") }
     ],
     [
-        { name: "Elettronica", date: new Date("2025-01-16") }
-        // { name: "Elettronica", date: new Date("2025-02-07") }
+        { name: "Farmacologia", date: new Date("2025-01-28") },
+        { name: "Farmacologia", date: new Date("2025-02-11") },
+        { name: "Farmacologia", date: new Date("2025-02-25") },
+        { name: "Farmacologia", date: new Date("2025-05-06") }
     ],
     [
-        { name: "Basi Dati", date: new Date("2025-01-20") },
-        { name: "Basi Dati", date: new Date("2025-02-03") }
+        { name: "Chimica Organica II", date: new Date("2025-01-29") },
+        { name: "Chimica Organica II", date: new Date("2025-02-24") },
+        { name: "Chimica Organica II", date: new Date("2025-05-05") }
     ],
     [
-        { name: "Reti Logiche", date: new Date("2025-01-24") },
-        { name: "Reti Logiche", date: new Date("2025-02-14") }
-    ],
-    [
-        { name: "Sistemi Informativi", date: new Date("2025-01-27") },
-        { name: "Sistemi Informativi", date: new Date("2025-02-11") }
+        { name: "Chimica Farmaceutica", date: new Date("2025-02-13") }
     ]
 ];
 
@@ -129,4 +151,44 @@ const combinations = allCombinations(exams);
 
 combinations.forEach(elem => evaluateCombination(elem));
 
-console.log(bestCombinations);
+// console.log(bestCombinations);
+
+const renderContainer = document.querySelector('.render');
+
+let content = ''; 
+
+for (let i = 0; i < bestCombinations.length; i++) {
+    let comb = bestCombinations[i];
+    content += `
+        <li>
+            <h3>Combination ${i + 1}</h3>
+            <p>Score: ${comb.score.toFixed(2)}</p>
+            <table border="1" border-collapse: collapse;">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Data</th>
+                    </tr>
+                </thead>
+                <tbody>
+    `;
+
+    comb.combination.forEach(elem => {
+        let date = new Date(elem.date);
+        let formattedDate = date.toLocaleDateString('it-IT'); 
+        content += `
+                <tr>
+                    <td>${elem.name}</td>
+                    <td>${formattedDate}</td>
+                </tr>
+        `;
+    });
+
+    content += `
+                </tbody>
+            </table>
+        </li>
+    `;
+}
+
+renderContainer.innerHTML = content;
