@@ -1,25 +1,7 @@
-const exams = [
-    [
-        { name: "Ingegneria del SW", date: new Date("2025-01-13"), reqDays: -1 },
-        { name: "Ingegneria del SW", date: new Date("2025-01-31"), reqDays: -1 }
-    ],
-    [
-        { name: "Elettronica", date: new Date("2025-01-16"), reqDays: 30 },
-        { name: "Elettronica", date: new Date("2025-02-07"), reqDays: 30 }
-    ],
-    [
-        { name: "Basi Dati", date: new Date("2025-01-20"), reqDays: -1 },
-        { name: "Basi Dati", date: new Date("2025-02-03"), reqDays: -1 }
-    ],
-    [
-        { name: "Reti Logiche", date: new Date("2025-01-24"), reqDays: -1 },
-        { name: "Reti Logiche", date: new Date("2025-02-14"), reqDays: -1 }
-    ],
-    [
-        { name: "Sistemi Informativi", date: new Date("2025-01-27"), reqDays: -1 },
-        { name: "Sistemi Informativi", date: new Date("2025-02-11"), reqDays: -1 }
-    ]
-];
+import { getDates } from './input.js';
+
+// get user exams informations
+const exams = getDates();
 
 let examPreparedAtTheSameTime = 1;
 
@@ -121,7 +103,7 @@ const maxSize = 5;
 
 // inserts the combination into the best ones, sorts those and ensures that they are less or equal than maxSize
 function bestCombinationsInsert(comb, s) {
-    option = {
+    let option = {
         score: s,
         combination: comb
     };
@@ -138,52 +120,12 @@ function bestCombinationsInsert(comb, s) {
 // main
 const combinations = allCombinations(exams);
 
-console.log(combinations.length);
-
 combinations.forEach(elem => evaluateCombination(elem));
 
-document.querySelector('.exam').innerHTML = `Exams prepared at the same time: ${examPreparedAtTheSameTime}`;
-
-const renderContainer = document.querySelector('.render');
-
-let content = ''; 
-
-for (let i = 0; i < bestCombinations.length; i++) {
-    let comb = bestCombinations[i];
-    content += `
-        <li>
-            <h3>Combination ${i + 1}</h3>
-            <p>Score: ${comb.score.toFixed(2)}</p>
-            <table border="1" border-collapse: collapse;">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Data</th>
-                    </tr>
-                </thead>
-                <tbody>
-    `;
-
-    comb.combination.forEach(elem => {
-        let date = new Date(elem.date);
-        let formattedDate = date.toLocaleDateString('it-IT'); 
-        content += `
-                <tr>
-                    <td>${elem.name}</td>
-                    <td>${formattedDate}</td>
-                </tr>
-        `;
-    });
-
-    content += `
-                </tbody>
-            </table>
-        </li>
-    `;
+export function getBestCombinations() {
+    return bestCombinations;
 }
 
-if (bestCombinations.length === 0) {
-    content = `<p>No combination meets the requirments...</p>`;
+export function getExamPreparedAtTheSameTime() {
+    return examPreparedAtTheSameTime;
 }
-
-renderContainer.innerHTML = content;
