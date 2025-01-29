@@ -43,7 +43,7 @@ function calcBalance(comb) {
         distances.push(distance);
         sum += distance;
 
-        if (distance < comb[i].reqDays) {
+        if (distance < comb[i].minDays) {
             return -1;
         }
      }
