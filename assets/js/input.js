@@ -179,7 +179,7 @@ function addExamPopup() {
             id: `exam-` + currentExamId, 
             name: examName,
             dates: uniqueDates,
-            minDays: minDays
+            minDays: minDays === 0 ? -1 : minDays
         };
 
         exams.push(examData);
