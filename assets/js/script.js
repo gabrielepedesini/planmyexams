@@ -98,7 +98,7 @@ function evaluateCombination(combination) {
 }
 
 // best combinations
-let bestCombinations = [];
+let bestCombinations;
 const maxSize = 5;
 
 // inserts the combination into the best ones, sorts those and ensures that they are less or equal than maxSize
@@ -121,6 +121,8 @@ export function getBestCombinations() {
     exams = getExamsInfo();
 
     const combinations = allCombinations(exams);
+
+    bestCombinations = [];
 
     combinations.forEach(elem => evaluateCombination(elem));
 
