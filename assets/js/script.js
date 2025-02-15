@@ -1,7 +1,7 @@
-import { getDates } from './input.js';
+import { getExamsInfo } from './input.js';
 
 // get user exams informations
-const exams = getDates();
+let exams;
 
 let examPreparedAtTheSameTime = 1;
 
@@ -117,12 +117,13 @@ function bestCombinationsInsert(comb, s) {
     }
 }
 
-// main
-const combinations = allCombinations(exams);
-
-combinations.forEach(elem => evaluateCombination(elem));
-
 export function getBestCombinations() {
+    exams = getExamsInfo();
+
+    const combinations = allCombinations(exams);
+
+    combinations.forEach(elem => evaluateCombination(elem));
+
     return bestCombinations;
 }
 

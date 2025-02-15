@@ -21,8 +21,19 @@ const input = [
     ]
 ];
 
-export function getDates() {
-    return input;
+export function getExamsInfo() {
+
+    const formattedExams = exams.map(exam =>
+        exam.dates.map(date => ({
+            name: exam.name,
+            date: new Date(date), 
+            minDays: exam.minDays
+        }))
+    );
+
+    console.log(formattedExams)
+
+    return formattedExams;
 }
 
 // exams temp
@@ -37,15 +48,7 @@ const addExamButton = document.getElementById('addExamButton');
 addExamButton.addEventListener('click', function() {
     addExamButton.disabled = true;
 
-    const newExamDiv = document.createElement('div');
-    newExamDiv.classList.add('exam');
-    newExamDiv.id = 'exam-' + currentExamId;
-
-    currentExamId++;
-
-    addExamButton.parentNode.insertBefore(newExamDiv, addExamButton);
-
-    addExamPopup(newExamDiv.id);
+    addExamPopup();
 
     setTimeout(() => {
         addExamButton.disabled = false;
@@ -55,25 +58,42 @@ addExamButton.addEventListener('click', function() {
 // add exam popup
 let currentDateId = 1;
 
+const examPopupBackground = document.querySelector('.exam-popup-background');
 const examPopup = document.querySelector('.exam-popup');
 
-function addExamPopup(examId) {
+function addExamPopup() {
+
+    // display popup
+    examPopupBackground.classList.add('show');
+
     // popup content
     const htmlContent = `
+        <div class="close-exam-popup">✕</div>
+        <h2>New Exam</h2>
         <input type="text" placeholder="Name" id="examName">
         <div id="date-inputs">
-            <input type="date" id="date-0">
+            <div class="date-input">
+                <input type="date" id="date-${currentDateId - 1}">
+            </div>
         </div>
-        <button id="addDateButton">Add another date</button>
+        <button id="addDateButton">Add date</button>
         <div class="custom-number-picker">
             <button id="decrement">-</button>
             <div id="minDays">0</div>
             <button id="increment">+</button>
         </div>
+        <div id="alertAddExam"></div>
         <button id="saveExam">Save</button>
     `;
 
     examPopup.innerHTML = htmlContent;
+
+    // close popup 
+    const closeExamPopupBtn = document.querySelector(".close-exam-popup"); 
+
+    closeExamPopupBtn.addEventListener("click", () => {
+        closeExamPopup();
+    });
 
     // date input
     const addDateButton = document.getElementById('addDateButton');
@@ -83,10 +103,22 @@ function addExamPopup(examId) {
         newDateInput.type = 'date';
         newDateInput.id = `date-${currentDateId}`;
 
-        currentDateId++;
+        const dateInputDelete = document.createElement('button');
+        dateInputDelete.textContent = 'Remove';
+        dateInputDelete.addEventListener('click', () => {
+            newDateInput.remove();  
+            dateInputDelete.remove();  
+        });
+
+        const dateInputContainer = document.createElement('div');
+        dateInputContainer.className = "date-input";
+        dateInputContainer.appendChild(newDateInput);
+        dateInputContainer.appendChild(dateInputDelete);
 
         const dateInputsContainer = document.getElementById('date-inputs');
-        dateInputsContainer.appendChild(newDateInput);
+        dateInputsContainer.appendChild(dateInputContainer);
+
+        currentDateId++;
     });
 
     // min days picker
@@ -113,6 +145,7 @@ function addExamPopup(examId) {
     });
 
     // save exam input
+    const alertAddExam = document.getElementById('alertAddExam');
     const saveExamButton = document.getElementById('saveExam');
 
     saveExamButton.addEventListener('click', () => {
@@ -123,24 +156,27 @@ function addExamPopup(examId) {
         const dates = Array.from(dateInputs).map(input => input.value);
 
         if (!examName) {
-            alert('Please enter an exam name.');
+            alertAddExam.textContent = 'Please enter an exam name.';
             return;
         }
 
         if (dates.some(date => !date)) {
-            alert('Please fill in all date fields.');
+            alertAddExam.textContent = 'Please fill in all date fields.';
             return;
         }
 
         const isExamNameExists = exams.some(exam => exam.name === examName);
         if (isExamNameExists) {
-            alert('An exam with this name already exists. Please use a different name.');
+            alertAddExam.textContent = 'An exam with this name already exists. Please use a different name.';
             return;
         }
 
         const uniqueDates = [...new Set(dates)];
 
+        uniqueDates.sort((a, b) => new Date(a) - new Date(b));
+
         const examData = {
+            id: `exam-` + currentExamId, 
             name: examName,
             dates: uniqueDates,
             minDays: minDays
@@ -149,5 +185,71 @@ function addExamPopup(examId) {
         exams.push(examData);
         
         console.log('Exams:', exams);
+
+        examAdded();
     });
 }
+
+// exam added
+function examAdded() {
+    const latestExam = exams[exams.length - 1];
+
+    const newExamDiv = document.createElement('div');
+    newExamDiv.classList.add('exam');
+    newExamDiv.id = latestExam.id;
+
+    const examNameElement = document.createElement('h3');
+    examNameElement.textContent = latestExam.name;
+
+    const examDatesList = document.createElement('ul');
+    latestExam.dates.forEach(date => {
+        const listItem = document.createElement('li');
+        listItem.textContent = date;
+        examDatesList.appendChild(listItem);
+    });
+
+    const minDaysElement = document.createElement('p');
+    if (latestExam.minDays > 0) {
+        minDaysElement.textContent = `Required Days: ${latestExam.minDays}`;
+    }
+
+    const deleteButton = document.createElement('button');
+    deleteButton.textContent = 'Delete';
+    deleteButton.addEventListener('click', () => {
+        newExamDiv.remove();
+        exams = exams.filter(exam => exam.id !== latestExam.id);
+        console.log('Updated Exams:', exams);
+    });
+
+    newExamDiv.appendChild(examNameElement);
+    
+    const datesContainer = document.createElement('div');
+    datesContainer.innerHTML = `<strong>Dates</strong>`;
+    datesContainer.appendChild(examDatesList);
+    newExamDiv.appendChild(datesContainer);
+
+    if (latestExam.minDays > 0) {
+        newExamDiv.appendChild(minDaysElement);
+    }
+    newExamDiv.appendChild(deleteButton);
+
+    addExamButton.parentNode.insertBefore(newExamDiv, addExamButton);
+
+    currentExamId++;
+
+    examPopupBackground.classList.remove('show');
+}
+
+// close exam popup
+function closeExamPopup() {
+    examPopupBackground.classList.remove('show');
+}
+
+document.querySelector('.exam-popup').addEventListener('click', (event) => {
+    event.stopPropagation();
+});
+
+examPopupBackground.addEventListener("click", () => {
+    console.log("nope")
+    closeExamPopup();
+});

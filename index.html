@@ -8,22 +8,28 @@
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
+    <div class="exam-popup-background">
+        <div class="exam-popup"></div>
+    </div>
+
+    <div class="exams">
+        <button id="addExamButton">Add Exam</button>
+    </div>
+
+    <div class="calculate">
+        <button id="calculateButton">Find Best Combinations</button>
+    </div>
+
     <div class="container">
-        <h1>Best Combinations</h1>
-        <p class="exam"></p>
+        <p class="number-exams-same-time"></p>
         <ol class="render">
 
         </ol>
     </div>
 
-    <div class="exam-popup"></div>
-
-    <div class="exams">
-        <button id="addExamButton">Add exam</button>
-    </div>
-
     <script type="module" src="assets/js/input.js"></script>
     <script type="module" src="assets/js/script.js"></script>
     <script type="module" src="assets/js/output.js"></script>
+    <script src="assets/js/theme.js"></script>
 </body>
 </html>
