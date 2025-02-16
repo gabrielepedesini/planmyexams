@@ -77,7 +77,10 @@ function addExamPopup() {
                 <input type="date" id="date-${currentDateId - 1}">
             </div>
         </div>
-        <button class="alt" id="addDateButton">Add Date</button>
+        <button class="alt" id="addDateButton">
+            <svg  xmlns="http://www.w3.org/2000/svg"  width="18"  height="18"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-plus"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>
+            Add Date
+        </button>
         <h4>Minimum Days Required <span>(Optional)</span></h4>
         <div class="custom-number-picker">
             <button class="picker-decrement" id="decrementMinDays">-</button>
@@ -85,7 +88,10 @@ function addExamPopup() {
             <button class="picker-increment" id="incrementMinDays">+</button>
         </div>
         <div id="alertAddExam"></div>
-        <button id="saveExam">Save</button>
+        <button id="saveExam">
+            <svg  xmlns="http://www.w3.org/2000/svg"  width="18"  height="18"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-device-floppy"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 4h10l4 4v10a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2" /><path d="M12 14m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M14 4l0 4l-6 0l0 -4" /></svg>
+            Save
+        </button>
     `;
 
     examPopup.innerHTML = htmlContent;
@@ -114,7 +120,7 @@ function addExamPopup() {
         newDateInput.id = `date-${currentDateId}`;
 
         const dateInputDelete = document.createElement('button');
-        dateInputDelete.textContent = '✕';
+        dateInputDelete.innerHTML = '<svg  xmlns="http://www.w3.org/2000/svg"  width="18"  height="18"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-circle-minus"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M9 12l6 0" /></svg>';
         dateInputDelete.className = 'delete';
         dateInputDelete.addEventListener('click', () => {
             dateInputContainer.remove(); 

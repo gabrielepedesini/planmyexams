@@ -301,6 +301,13 @@ button:hover {
     border: 1px solid var(--input-border);
 }
 
+.exam-popup #addDateButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
 .exam-popup h4 {
     font-size: 16px;
     font-weight: 500;
@@ -360,7 +367,12 @@ button:hover {
 }
 
 .exam-popup #saveExam {
+    padding: 8px 12px;
     margin-top: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
 }
 
 .exam-popup-background.show {
@@ -553,6 +565,10 @@ button:hover {
 
 .calculate #calculateButton {
     padding: 8px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
 }
 
 @media (max-width: 450px) {
