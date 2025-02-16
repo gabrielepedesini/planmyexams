@@ -97,7 +97,7 @@ function evaluateCombination(combination) {
 
 // best combinations
 let bestCombinations = [];
-const maxSize = 5;
+const maxSize = 10;
 
 // inserts the combination into the best ones, sorts those and ensures that they are less or equal than maxSize
 function bestCombinationsInsert(comb, s) {
@@ -158,7 +158,7 @@ export function getBestCombinations() {
     }
 
     // less exams than num of exams prepared at the same time
-    if (getExamPreparedAtTheSameTime() > exams.length) {
+    if (getExamPreparedAtTheSameTime() >= exams.length) {
         return -2;
     }
 

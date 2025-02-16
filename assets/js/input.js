@@ -4,8 +4,8 @@ const input = [
         { name: "Ingegneria del SW", date: new Date("2025-01-31"), minDays: -1 }
     ],
     [
-        { name: "Elettronica", date: new Date("2025-01-16"), minDays: 30 },
-        { name: "Elettronica", date: new Date("2025-02-07"), minDays: 30 }
+        { name: "Elettronica", date: new Date("2025-01-16"), minDays: -1 },
+        { name: "Elettronica", date: new Date("2025-02-07"), minDays: -1 }
     ],
     [
         { name: "Basi Dati", date: new Date("2025-01-20"), minDays: -1 },
@@ -30,6 +30,8 @@ export function getExamsInfo() {
             minDays: exam.minDays
         }))
     );
+
+    // return input;
 
     return formattedExams;
 }
@@ -235,6 +237,7 @@ function examAdded() {
     const deleteButton = document.createElement('button');
     deleteButton.textContent = 'Delete';
     deleteButton.classList.add('delete-exam-btn');
+    deleteButton.classList.add('alt');
     deleteButton.addEventListener('click', () => {
         newExamDiv.remove();
         exams = exams.filter(exam => exam.id !== latestExam.id);

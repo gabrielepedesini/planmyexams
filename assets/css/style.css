@@ -120,6 +120,10 @@ button:hover {
     transition: .2s;
 }
 
+.bold {
+    font-weight: 600;
+}
+
 :root[data-theme="light"] {
     --text: #121612;
     --background: #f3f7f3;
@@ -132,6 +136,12 @@ button:hover {
 
     --input: #d4d4d4;
     --input-border: #a5a5a5;
+
+    --rank-1: #338f38;
+    --rank-2: #5a8d5c;
+    --rank-3: #758676;
+    --rank-rest: #a8a8a8;
+    --combination-card-shadow: rgba(0,0,0,0.15);
 
     --scrollbar: #e2e2e2;
     --scrollthumb: #adadad;
@@ -150,6 +160,12 @@ button:hover {
 
     --input: #c2c2c2;
     --input-border: #969696;
+
+    --rank-1: #338f38;
+    --rank-2: #5a8d5c;
+    --rank-3: #758676;
+    --rank-rest: #a8a8a8;
+    --combination-card-shadow: rgba(255, 255, 255, 0.15);
 
     --scrollbar: #e2e2e2;
     --scrollthumb: #adadad;
@@ -198,6 +214,10 @@ button:hover {
   max-width: 1000px;
   margin: 0 auto;
   padding: 25px;
+}
+
+.spacer {
+    height: 50px;
 }
 
 /* EXAM POPUP */
@@ -398,6 +418,7 @@ button:hover {
     background-color: transparent;
     border-width: 2px;
     border-style: dashed;
+    border-color: var(--primary);
     color: var(--text);
     min-height: 250px;
 }
@@ -499,9 +520,111 @@ button:hover {
     font-size: 14px;
     margin-bottom: 15px;
     color: var(--alert);
+    text-align: center;
 }
 
 .calculate #calculateButton {
     padding: 8px 18px;
     /* font-size: 16px; */
+}
+
+/* OUTPUT */
+
+.output-text {
+    margin-bottom: 50px;
+}
+
+.combination-cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 25px;
+}
+
+@media (max-width: 768px) {
+    .combination-cards {
+        grid-template-columns: repeat(1, 1fr); 
+    }
+}
+
+.combination-card {
+    background: var(--background-secondary);
+    border-radius: 5px;
+    padding: 20px;
+    box-shadow: none;
+    position: relative;
+    border: 1px solid var(--background-secondary);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.combination-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 3px 15px var(--combination-card-shadow);
+}
+
+.score-badge {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background: var(--rank-rest);
+    color: #f3f7f3;
+    border-radius: 10px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.exam-list {
+    list-style: none;
+    padding: 0;
+    margin: 15px 0 0;
+}
+
+.exam-item {
+    color: #121612;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    margin: 5px 0;
+    background: var(--input);
+    border-radius: 5px;
+    border-left: 4px solid var(--input-border);
+    font-size: 14px;
+}
+
+.exam-name {
+    flex: 1;
+    font-weight: 400;
+    text-transform: capitalize;
+}
+
+.exam-date {
+    opacity: .6;
+}
+
+.rank-1 {
+    border: 2px solid var(--rank-1);
+}
+
+.rank-1 .score-badge {
+    background: var(--rank-1);
+}
+
+.rank-2 {
+    border: 2px solid var(--rank-2);
+}
+
+.rank-2 .score-badge {
+    background: var(--rank-2);
+}
+
+.rank-3 {
+    border: 2px solid var(--rank-3);
+}
+
+.rank-3 .score-badge {
+    background: var(--rank-3);
 }

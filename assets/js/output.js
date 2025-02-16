@@ -14,7 +14,8 @@ calculateBtn.addEventListener('click', () => {
     }
 
     if (bestCombinations === -2) {
-        alertCalculate.textContent = 'The exams prepared at the same time must not exceed the total number of exams';
+        alertCalculate.style.display = "block";
+        alertCalculate.textContent = 'The exams prepared at the same time must be less than total number of exams';
         return;
     }
 
@@ -28,50 +29,35 @@ calculateBtn.addEventListener('click', () => {
 let bestCombinations;
 let examPreparedAtTheSameTime;
 
+function formatDate(date) {
+    return new Date(date).toLocaleDateString('en-GB');
+}
+  
 function renderResults() {
-    document.querySelector('.number-exams-same-time').innerHTML = `Exams prepared at the same time: ${examPreparedAtTheSameTime}`;
+    const outputText = document.querySelector('.output-text');
+    const outputComb = document.querySelector('.combination-cards');
 
-    const renderContainer = document.querySelector('.render');
-    
-    let content = ''; 
-    
-    for (let i = 0; i < bestCombinations.length; i++) {
-        let comb = bestCombinations[i];
-        content += `
-            <li>
-                <h3>Combination ${i + 1}</h3>
-                <p>Score: ${comb.score.toFixed(2)}</p>
-                <table border="1" border-collapse: collapse;">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Data</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+    outputText.innerHTML = `
+        <h2>Best Combinations</h2>
+        <p>These combinations have been evaluated considering the preparation of <span class="bold">${examPreparedAtTheSameTime} ${examPreparedAtTheSameTime === 1 ? 'exam' : 'exams'}</span> at the same time.</p>
+        <p>Each combination has a score in the top right corner showing how optimal it is.</p>
+    `;
+
+    outputComb.innerHTML = bestCombinations.map((item, index) => {
+        const rankClass = index < 3 ? `rank-${index + 1}` : '';
+        return `
+            <div class="combination-card ${rankClass}">
+                <div class="score-badge">${item.score.toFixed(0)}</div>
+                <h3>Combination ${index + 1}</h3>
+                <ul class="exam-list">
+                ${item.combination.map(exam => `
+                    <li class="exam-item">
+                        <span class="exam-name">${exam.name}</span>
+                        <span class="exam-date">${formatDate(exam.date)}</span>
+                    </li>
+                `).join('')}
+                </ul>
+            </div>
         `;
-    
-        comb.combination.forEach(elem => {
-            let date = new Date(elem.date);
-            let formattedDate = date.toLocaleDateString('it-IT'); 
-            content += `
-                    <tr>
-                        <td>${elem.name}</td>
-                        <td>${formattedDate}</td>
-                    </tr>
-            `;
-        });
-    
-        content += `
-                    </tbody>
-                </table>
-            </li>
-        `;
-    }
-    
-    if (bestCombinations.length === 0) {
-        content = `<p>No combination meets the requirments...</p>`;
-    }
-    
-    renderContainer.innerHTML = content;
+    }).join('');
 }
