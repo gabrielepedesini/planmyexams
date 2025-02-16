@@ -201,23 +201,40 @@ function examAdded() {
     const examNameElement = document.createElement('h3');
     examNameElement.textContent = latestExam.name;
 
+    const examDatesDiv = document.createElement('div');
+    examDatesDiv.classList.add('exam-dates');
+    
+    const datesHeader = document.createElement('h4');
+    datesHeader.textContent = 'Dates';
+    
     const examDatesList = document.createElement('ul');
     latestExam.dates.forEach(date => {
         const listItem = document.createElement('li');
-        
-        const formattedDate = new Date(date).toLocaleDateString('en-GB');
-        
-        listItem.textContent = formattedDate;
+        listItem.textContent = new Date(date).toLocaleDateString('en-GB');
         examDatesList.appendChild(listItem);
     });
 
-    const minDaysElement = document.createElement('p');
+    examDatesDiv.appendChild(datesHeader);
+    examDatesDiv.appendChild(examDatesList);
+
+    const requiredDaysDiv = document.createElement('div');
+    requiredDaysDiv.classList.add('required-days');
+    
     if (latestExam.minDays > 0) {
-        minDaysElement.textContent = `Required Days: ${latestExam.minDays}`;
+        const requiredDaysHeader = document.createElement('h4');
+        requiredDaysHeader.textContent = 'Required Days';
+
+        const requiredDays = document.createElement('div');
+        requiredDays.className = 'required-days-number';
+        requiredDays.textContent = latestExam.minDays;
+
+        requiredDaysDiv.appendChild(requiredDaysHeader);
+        requiredDaysDiv.appendChild(requiredDays);
     }
 
     const deleteButton = document.createElement('button');
     deleteButton.textContent = 'Delete';
+    deleteButton.classList.add('delete-exam-btn');
     deleteButton.addEventListener('click', () => {
         newExamDiv.remove();
         exams = exams.filter(exam => exam.id !== latestExam.id);
@@ -225,21 +242,13 @@ function examAdded() {
     });
 
     newExamDiv.appendChild(examNameElement);
-    
-    const datesContainer = document.createElement('div');
-    datesContainer.innerHTML = `<strong>Dates</strong>`;
-    datesContainer.appendChild(examDatesList);
-    newExamDiv.appendChild(datesContainer);
-
-    if (latestExam.minDays > 0) {
-        newExamDiv.appendChild(minDaysElement);
-    }
+    newExamDiv.appendChild(examDatesDiv);
+    if (latestExam.minDays > 0) newExamDiv.appendChild(requiredDaysDiv);
     newExamDiv.appendChild(deleteButton);
 
     addExamButton.parentNode.insertBefore(newExamDiv, addExamButton);
 
     currentExamId++;
-
     examPopupBackground.classList.remove('show');
 }
 

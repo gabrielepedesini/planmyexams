@@ -12,22 +12,29 @@
         <div class="exam-popup"></div>
     </div>
 
-    <div class="exams container">
-        <button id="addExamButton">Add Exam</button>
-    </div>
+    <section class="container">
+        <div class="input">
 
-    <div class="exams-at-the-same-time container">
-        <div class="custom-number-picker">
-            <button class="picker-decrement" id="decrementAtSameTime">-</button>
-            <div class="picker-number" id="atSameTime">1</div>
-            <button class="picker-increment" id="incrementAtSameTime">+</button>
+            <div class="exams">
+                <button id="addExamButton">Add Exam</button>
+            </div>
+    
+            <div class="exams-at-the-same-time">
+                <p>How many exams do you prepare for at the same time?</p>
+                <div class="custom-number-picker">
+                    <button class="picker-decrement" id="decrementAtSameTime">-</button>
+                    <div class="picker-number" id="atSameTime">1</div>
+                    <button class="picker-increment" id="incrementAtSameTime">+</button>
+                </div>
+            </div>    
+    
+            <div class="calculate">
+                <div id="alertCalculate" class="alert"></div>
+                <button id="calculateButton">Find Best Combinations</button>
+            </div>  
+
         </div>
-    </div>
-
-    <div class="calculate container">
-        <div id="alertCalculate"></div>
-        <button id="calculateButton">Find Best Combinations</button>
-    </div>
+    </section>
 
     <div class="container">
         <p class="number-exams-same-time"></p>

@@ -8,13 +8,18 @@ calculateBtn.addEventListener('click', () => {
     examPreparedAtTheSameTime = getExamPreparedAtTheSameTime();
 
     if (bestCombinations === -1) {
+        alertCalculate.style.display = "block";
         alertCalculate.textContent = 'Insert at least two exams';
         return;
     }
 
     if (bestCombinations === -2) {
-        alertCalculate.textContent = 'Number of exams prepared at the same time should be less or equal than exams number';
+        alertCalculate.textContent = 'The exams prepared at the same time must not exceed the total number of exams';
         return;
+    }
+
+    if (alertCalculate.style.display === "block") {
+        alertCalculate.style.display = "none";
     }
 
     renderResults();

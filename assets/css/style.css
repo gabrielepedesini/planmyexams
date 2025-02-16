@@ -111,12 +111,8 @@ button {
 }
 
 button.alt {
-    color: #f3f7f3;
     background-color: var(--secondary);
-    border-radius: 5px;
-    font-size: 14px;
     border: 1px solid var(--background-transparent);
-    transition: .2s;
 }
 
 button:hover {
@@ -127,14 +123,14 @@ button:hover {
 :root[data-theme="light"] {
     --text: #121612;
     --background: #f3f7f3;
-    --background-secondary: #e0e0e0;
+    --background-secondary: #ececec;
     --background-transparent: #f3f7f385;
     --primary: #328f37;
     --secondary: #6ab66c;
     --accent: #16ad1e;
     --alert: #D9534F;
 
-    --input: #c2c2c2;
+    --input: #d4d4d4;
     --input-border: #a5a5a5;
 
     --scrollbar: #e2e2e2;
@@ -144,8 +140,8 @@ button:hover {
 
 :root[data-theme="dark"] {
     --text: #e9ede9;
-    --background: #080c08;
-    --background-secondary: #151f15;
+    --background: #030503;
+    --background-secondary: #0a0f0a;
     --background-transparent: #080c0886;
     --primary: #338f38;
     --secondary: #19501c;
@@ -153,7 +149,7 @@ button:hover {
     --alert: #D9534F;
 
     --input: #c2c2c2;
-    --input-border: #a5a5a5;
+    --input-border: #969696;
 
     --scrollbar: #e2e2e2;
     --scrollthumb: #adadad;
@@ -197,10 +193,11 @@ button:hover {
 
 
 
+
 .container {
-  max-width: 800px;
+  max-width: 1000px;
   margin: 0 auto;
-  padding: 0 25px;
+  padding: 25px;
 }
 
 /* EXAM POPUP */
@@ -221,7 +218,7 @@ button:hover {
 
 .exam-popup-background .exam-popup {
     width: 85%;
-    max-width: 350px;
+    max-width: 400px;
     height: fit-content;
     max-height: 90%;
     padding: 20px;
@@ -254,7 +251,6 @@ button:hover {
     align-self: flex-end;
     cursor: pointer;
     opacity: 0.75;
-    margin-bottom: 5px;
 }
 
 .exam-popup h2 {
@@ -263,7 +259,7 @@ button:hover {
 
 .exam-popup #examName {
     font-size: 14px;
-    padding: 4px;
+    padding: 4px 8px;
     border-radius: 5px;
     background: var(--input);
     border: 1px solid var(--input-border);
@@ -275,10 +271,11 @@ button:hover {
 }
 
 .exam-popup h4 {
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 500;
-    margin-bottom: 5px;
-    margin-top: 20px;
+    margin-bottom: 10px;
+    margin-top: 25px;
+    opacity: .75;
 }
 
 .exam-popup h4 span {
@@ -314,11 +311,6 @@ button:hover {
     background: var(--input);
     border: 1px solid var(--input-border);
     color: #303030;
-}
-
-.exam-popup .date-input input::placeholder {
-    color: #b4b4b4;
-    opacity: .5;
 }
 
 .exam-popup .date-input .delete {
@@ -378,4 +370,138 @@ button:hover {
 
 .custom-number-picker .picker-increment {
     border-radius: 0 5px 5px 0;
+}
+
+/* INPUT */
+
+.input {
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    border: 1px solid var(--input);
+    border-radius: 5px;
+    padding: 25px;
+}
+
+/* EXAM CONTAINER */
+
+.exams {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); 
+    gap: 15px;
+    /* padding: 15px;
+    border: 1px solid var(--input);
+    border-radius: 5px; */
+}
+
+.exams #addExamButton {
+    background-color: transparent;
+    border-width: 2px;
+    border-style: dashed;
+    color: var(--text);
+    min-height: 250px;
+}
+
+.exams .exam {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    border: 1px solid var(--input-border);
+    border-radius: 5px;
+    gap: 25px;
+}
+
+.exams .exam h3 {
+    margin-bottom: 0;
+    color: var(--text);
+    text-transform: capitalize;
+    /* text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-decoration-color: var(--primary);
+    text-underline-offset: 4px; */
+}
+
+.exams .exam h4 {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 5px;
+    opacity: .75;
+    color: var(--text);
+}
+
+.exams .exam ul {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.exams .exam li {
+    font-size: 14px;
+    opacity: .5;
+    font-weight: 300;
+    color: var(--text);
+}
+
+.exams .exam .required-days-number {
+    font-size: 14px;
+    opacity: .5;
+    font-weight: 300;
+    color: var(--text);
+}
+
+.exams .exam .delete-exam-btn {
+    margin-top: auto;
+    width: 100%;
+    /* background-color: transparent;
+    border: 1px solid #b6403c; */
+}
+
+@media (max-width: 850px) {
+    .exams {
+        grid-template-columns: repeat(3, 1fr); 
+    }
+}
+
+@media (max-width: 600px) {
+    .exams {
+        grid-template-columns: repeat(2, 1fr); 
+    }
+}
+
+@media (max-width: 450px) {
+    .exams {
+        grid-template-columns: repeat(1, 1fr); 
+    }
+
+    .exams #addExamButton {
+        min-height: 100px;
+    }
+}
+
+/* EXAMS AT THE SAME TIME */
+
+.exams-at-the-same-time p {
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+/* CALCULATE */
+
+.calculate {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.calculate .alert {
+    display: none;
+    font-size: 14px;
+    margin-bottom: 15px;
+    color: var(--alert);
+}
+
+.calculate #calculateButton {
+    padding: 8px 18px;
+    /* font-size: 16px; */
 }
