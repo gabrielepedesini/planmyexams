@@ -69,16 +69,18 @@ function addExamPopup() {
         <div class="close-exam-popup">✕</div>
         <h2>New Exam</h2>
         <input type="text" placeholder="Name" id="examName">
+        <h4>Available Dates</h4>
         <div id="date-inputs">
             <div class="date-input">
                 <input type="date" id="date-${currentDateId - 1}">
             </div>
         </div>
-        <button id="addDateButton">Add date</button>
+        <button class="alt" id="addDateButton">Add date</button>
+        <h4>Minimum Days Required <span>(Optional)</span></h4>
         <div class="custom-number-picker">
-            <button id="decrementMinDays">-</button>
-            <div id="minDays">0</div>
-            <button id="incrementMinDays">+</button>
+            <button class="picker-decrement" id="decrementMinDays">-</button>
+            <div class="picker-number" id="minDays">0</div>
+            <button class="picker-increment" id="incrementMinDays">+</button>
         </div>
         <div id="alertAddExam"></div>
         <button id="saveExam">Save</button>
@@ -102,10 +104,10 @@ function addExamPopup() {
         newDateInput.id = `date-${currentDateId}`;
 
         const dateInputDelete = document.createElement('button');
-        dateInputDelete.textContent = 'Remove';
+        dateInputDelete.textContent = '✕';
+        dateInputDelete.className = 'delete';
         dateInputDelete.addEventListener('click', () => {
-            newDateInput.remove();  
-            dateInputDelete.remove();  
+            dateInputContainer.remove(); 
         });
 
         const dateInputContainer = document.createElement('div');
@@ -116,7 +118,7 @@ function addExamPopup() {
         const dateInputsContainer = document.getElementById('date-inputs');
         dateInputsContainer.appendChild(dateInputContainer);
 
-        currentDateId++;
+        currentDateId++; 
     });
 
     // min days picker
@@ -154,18 +156,18 @@ function addExamPopup() {
         const dates = Array.from(dateInputs).map(input => input.value);
 
         if (!examName) {
-            alertAddExam.textContent = 'Please enter an exam name.';
+            alertAddExam.textContent = 'Please enter an exam name';
             return;
         }
 
         if (dates.some(date => !date)) {
-            alertAddExam.textContent = 'Please fill in all date fields.';
+            alertAddExam.textContent = 'Please fill in all date fields';
             return;
         }
 
         const isExamNameExists = exams.some(exam => exam.name === examName);
         if (isExamNameExists) {
-            alertAddExam.textContent = 'An exam with this name already exists. Please use a different name.';
+            alertAddExam.textContent = 'An exam with this name already exists: please use a different name';
             return;
         }
 

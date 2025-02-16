@@ -88,13 +88,54 @@ ul, ol {
     list-style: none;
 }
 
+button {
+    display: inline-flex; 
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: none;
+    background: none;
+    padding: 4px 12px;
+    margin: 0;
+    font: inherit;
+    text-align: center;
+    text-decoration: none;
+    user-select: none; 
+    appearance: none; 
+    color: #f3f7f3;
+    background-color: var(--primary);
+    border-radius: 5px;
+    font-size: 14px;
+    border: 1px solid var(--secondary);
+    transition: .2s;
+}
+
+button.alt {
+    color: #f3f7f3;
+    background-color: var(--secondary);
+    border-radius: 5px;
+    font-size: 14px;
+    border: 1px solid var(--background-transparent);
+    transition: .2s;
+}
+
+button:hover {
+    opacity: .75;
+    transition: .2s;
+}
+
 :root[data-theme="light"] {
-    --text: #06080a;
-    --background: #fcfcfc;
-    --background-secondary: #dddddd;
-    --primary: #4273c7;
-    --secondary: #84a8e7;
-    --accent: #1962e0;
+    --text: #121612;
+    --background: #f3f7f3;
+    --background-secondary: #e0e0e0;
+    --background-transparent: #f3f7f385;
+    --primary: #328f37;
+    --secondary: #6ab66c;
+    --accent: #16ad1e;
+    --alert: #D9534F;
+
+    --input: #c2c2c2;
+    --input-border: #a5a5a5;
 
     --scrollbar: #e2e2e2;
     --scrollthumb: #adadad;
@@ -102,12 +143,17 @@ ul, ol {
 }
 
 :root[data-theme="dark"] {
-    --text: #f5f7f9;
-    --background: #060a0e;
-    --background-secondary: #1a2027;
-    --primary: #2c5db3;
-    --secondary: #183d7b;
-    --accent: #1962e0;
+    --text: #e9ede9;
+    --background: #080c08;
+    --background-secondary: #151f15;
+    --background-transparent: #080c0886;
+    --primary: #338f38;
+    --secondary: #19501c;
+    --accent: #15961c;
+    --alert: #D9534F;
+
+    --input: #c2c2c2;
+    --input-border: #a5a5a5;
 
     --scrollbar: #e2e2e2;
     --scrollthumb: #adadad;
@@ -142,11 +188,11 @@ ul, ol {
 /* SELECTION */
 
 ::-moz-selection {  
-    background: #3763ae77;
+    background: #5eb06246;
 }
 
 ::selection {
-    background: #3763ae77;
+    background: #5eb06246;
 }
 
 
@@ -168,7 +214,9 @@ ul, ol {
     display: none;
     justify-content: center;
     align-items: center;
-    background: red;
+    background: var(--background-transparent);
+    backdrop-filter: blur(3px);
+    z-index: 10;
 }
 
 .exam-popup-background .exam-popup {
@@ -177,15 +225,14 @@ ul, ol {
     height: fit-content;
     max-height: 90%;
     padding: 20px;
-    padding-bottom: 20px;
-    padding-bottom: 30px;
     border-radius: 5px;
     border: 1px solid #919191;
     display: none;
     flex-direction: column;
-    gap: 10px;
+    gap: 5px;
     animation: popup 0.3s forwards;
-    background: blue;
+    background: var(--background-secondary);
+    overflow: auto;
 }
 
 @keyframes popup {
@@ -207,11 +254,90 @@ ul, ol {
     align-self: flex-end;
     cursor: pointer;
     opacity: 0.75;
+    margin-bottom: 5px;
+}
+
+.exam-popup h2 {
     margin-bottom: 15px;
 }
 
-.exam-popup .custom-number-picker {
+.exam-popup #examName {
+    font-size: 14px;
+    padding: 4px;
+    border-radius: 5px;
+    background: var(--input);
+    border: 1px solid var(--input-border);
+}
+
+.exam-popup #examName:focus {
+    outline: none;
+    border: 1px solid var(--input-border);
+}
+
+.exam-popup h4 {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 5px;
+    margin-top: 20px;
+}
+
+.exam-popup h4 span {
+    font-weight: 300;
+    opacity: .75;
+}
+
+.exam-popup .date-input {
     display: flex;
+    gap: 5px;
+    margin-bottom: 5px;
+}
+
+.exam-popup .date-input input {
+    all: unset;
+    display: inline-block; 
+    height: auto; 
+    font: inherit; 
+    background: transparent; 
+    border: none; 
+    margin: 0; 
+    -webkit-appearance: none; 
+    -moz-appearance: none; 
+    appearance: none; 
+    cursor: pointer; 
+    box-sizing: border-box;
+
+    font-size: 14px;
+    height: 27px;
+    width: 135px;
+    padding: 4px;
+    border-radius: 5px;
+    background: var(--input);
+    border: 1px solid var(--input-border);
+    color: #303030;
+}
+
+.exam-popup .date-input input::placeholder {
+    color: #b4b4b4;
+    opacity: .5;
+}
+
+.exam-popup .date-input .delete {
+    background-color: var(--alert);
+    border: 1px solid #b6403c;
+    aspect-ratio: 1 / 1;
+    width: 27px;
+    height: 27px;
+    padding: 0;
+}
+
+.exam-popup #alertAddExam {
+    font-size: 14px;
+    margin-top: 15px;
+    color: var(--alert);
+}
+
+.exam-popup #saveExam {
+    margin-top: 5px;
 }
 
 .exam-popup-background.show {
@@ -220,4 +346,36 @@ ul, ol {
 
 .exam-popup-background.show .exam-popup {
     display: flex;
+}
+
+/* DATE PICKER */
+
+.custom-number-picker {
+    display: flex;
+}
+
+.custom-number-picker .picker-number {
+    width: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--input-border);
+    border-left: none;
+    border-right: none;
+}
+
+.custom-number-picker .picker-decrement,
+.custom-number-picker .picker-increment {
+    width: 20px;
+    background-color: var(--input);
+    border: 1px solid var(--input-border);
+    color: #303030 !important;
+}
+
+.custom-number-picker .picker-decrement {
+    border-radius: 5px 0 0 5px;
+}
+
+.custom-number-picker .picker-increment {
+    border-radius: 0 5px 5px 0;
 }
