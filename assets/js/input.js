@@ -31,9 +31,9 @@ export function getExamsInfo() {
         }))
     );
 
-    return input;
+    // return input;
 
-    // return formattedExams;
+    return formattedExams;
 }
 
 // exams temp
