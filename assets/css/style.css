@@ -84,6 +84,10 @@ a:hover {
     transition: 0.3s opacity;
 }
 
+ul, ol {
+    list-style: none;
+}
+
 :root[data-theme="light"] {
     --text: #06080a;
     --background: #fcfcfc;

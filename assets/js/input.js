@@ -31,8 +31,6 @@ export function getExamsInfo() {
         }))
     );
 
-    console.log(formattedExams)
-
     return formattedExams;
 }
 
@@ -78,9 +76,9 @@ function addExamPopup() {
         </div>
         <button id="addDateButton">Add date</button>
         <div class="custom-number-picker">
-            <button id="decrement">-</button>
+            <button id="decrementMinDays">-</button>
             <div id="minDays">0</div>
-            <button id="increment">+</button>
+            <button id="incrementMinDays">+</button>
         </div>
         <div id="alertAddExam"></div>
         <button id="saveExam">Save</button>
@@ -122,8 +120,8 @@ function addExamPopup() {
     });
 
     // min days picker
-    const decrementButton = document.getElementById('decrement');
-    const incrementButton = document.getElementById('increment');
+    const decrementButton = document.getElementById('decrementMinDays');
+    const incrementButton = document.getElementById('incrementMinDays');
     const numberDisplay = document.getElementById('minDays');
 
     let currentNumber = 0;
@@ -204,7 +202,10 @@ function examAdded() {
     const examDatesList = document.createElement('ul');
     latestExam.dates.forEach(date => {
         const listItem = document.createElement('li');
-        listItem.textContent = date;
+        
+        const formattedDate = new Date(date).toLocaleDateString('en-GB');
+        
+        listItem.textContent = formattedDate;
         examDatesList.appendChild(listItem);
     });
 
@@ -250,6 +251,5 @@ document.querySelector('.exam-popup').addEventListener('click', (event) => {
 });
 
 examPopupBackground.addEventListener("click", () => {
-    console.log("nope")
     closeExamPopup();
 });

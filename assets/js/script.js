@@ -3,8 +3,6 @@ import { getExamsInfo } from './input.js';
 // get user exams informations
 let exams;
 
-let examPreparedAtTheSameTime = 1;
-
 // generates all the possible combinations
 function allCombinations(groups) {
     let result = groups.reduce((acc, group) => {
@@ -98,7 +96,7 @@ function evaluateCombination(combination) {
 }
 
 // best combinations
-let bestCombinations;
+let bestCombinations = [];
 const maxSize = 5;
 
 // inserts the combination into the best ones, sorts those and ensures that they are less or equal than maxSize
@@ -117,18 +115,60 @@ function bestCombinationsInsert(comb, s) {
     }
 }
 
+// number of exams at the same time picker
+const decrementButton = document.getElementById('decrementAtSameTime');
+const incrementButton = document.getElementById('incrementAtSameTime');
+const numberDisplay = document.getElementById('atSameTime');
+
+let examPreparedAtTheSameTime = 1;
+
+function updateNumberDisplay() {
+    numberDisplay.textContent = examPreparedAtTheSameTime;
+}
+
+decrementButton.addEventListener('click', () => {
+    if (examPreparedAtTheSameTime > 1) {
+        examPreparedAtTheSameTime--;
+        updateNumberDisplay();
+    }
+});
+
+incrementButton.addEventListener('click', () => {
+    examPreparedAtTheSameTime++;
+    updateNumberDisplay();
+});
+
+// extract number of exams prepared at the same time
+export function getExamPreparedAtTheSameTime() {
+    return examPreparedAtTheSameTime;
+}
+
+// extract best combinations
 export function getBestCombinations() {
+
+    // reset best combinations
+    bestCombinations = [];
+    
+    // get exams info
     exams = getExamsInfo();
 
+    // less than 2 exams
+    if (exams.length < 2) {
+        return -1;
+    }
+
+    // less exams than num of exams prepared at the same time
+    if (getExamPreparedAtTheSameTime() > exams.length) {
+        return -2;
+    }
+
+    getExamPreparedAtTheSameTime()
+
+    // calculate all possible combinations
     const combinations = allCombinations(exams);
 
-    bestCombinations = [];
-
+    // evaluate all combination
     combinations.forEach(elem => evaluateCombination(elem));
 
     return bestCombinations;
-}
-
-export function getExamPreparedAtTheSameTime() {
-    return examPreparedAtTheSameTime;
 }

@@ -1,10 +1,21 @@
 import { getBestCombinations, getExamPreparedAtTheSameTime } from './script.js';
 
+const alertCalculate = document.getElementById('alertCalculate');
 const calculateBtn = document.getElementById('calculateButton');
 
 calculateBtn.addEventListener('click', () => {
     bestCombinations = getBestCombinations();
     examPreparedAtTheSameTime = getExamPreparedAtTheSameTime();
+
+    if (bestCombinations === -1) {
+        alertCalculate.textContent = 'Insert at least two exams.';
+        return;
+    }
+
+    if (bestCombinations === -2) {
+        alertCalculate.textContent = 'Number of exams prepared at the same time should be less or equal than exams number.';
+        return;
+    }
 
     renderResults();
 });
