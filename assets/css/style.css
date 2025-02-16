@@ -29,11 +29,11 @@ h3, h4, h5, h6 {
 }
 
 h1 {
-    font-size: 30px;
+    font-size: 36px;
 }
 
 h2 {
-    font-size: 22px;
+    font-size: 26px;
 }
 
 h3 {
@@ -47,11 +47,11 @@ h4 {
 @media (max-width: 768px) {
     
     h1 {
-        font-size: 26px;
+        font-size: 30px;
     }
     
     h2 {
-        font-size: 20px;
+        font-size: 22px;
     }
     
     h3 {
@@ -107,8 +107,15 @@ button {
     border-radius: 5px;
     font-size: 14px;
     border: 1px solid var(--secondary);
+    transform: scale(1);
     transition: .2s;
 }
+
+button:active {
+    transform: scale(0.95);
+    transition: 0.3s;
+    transition-timing-function: cubic-bezier(.4,0,.2,1);
+  }
 
 button.alt {
     background-color: var(--secondary);
@@ -121,7 +128,7 @@ button:hover {
 }
 
 .bold {
-    font-weight: 600;
+    font-weight: bold;
 }
 
 :root[data-theme="light"] {
@@ -150,16 +157,19 @@ button:hover {
 
 :root[data-theme="dark"] {
     --text: #e9ede9;
-    --background: #030503;
-    --background-secondary: #0a0f0a;
+    --background: #010201;
+    --background-secondary: #070c07;
     --background-transparent: #080c0886;
     --primary: #338f38;
     --secondary: #19501c;
     --accent: #15961c;
     --alert: #D9534F;
 
-    --input: #c2c2c2;
-    --input-border: #969696;
+    /* --input: #c2c2c2;
+    --input-border: #969696; */
+
+    --input: #212b21;
+    --input-border: #3a493a;
 
     --rank-1: #338f38;
     --rank-2: #5a8d5c;
@@ -283,6 +293,7 @@ button:hover {
     border-radius: 5px;
     background: var(--input);
     border: 1px solid var(--input-border);
+    color: var(--text);
 }
 
 .exam-popup #examName:focus {
@@ -330,7 +341,7 @@ button:hover {
     border-radius: 5px;
     background: var(--input);
     border: 1px solid var(--input-border);
-    color: #303030;
+    color: var(--text);
 }
 
 .exam-popup .date-input .delete {
@@ -381,7 +392,7 @@ button:hover {
     width: 20px;
     background-color: var(--input);
     border: 1px solid var(--input-border);
-    color: #303030 !important;
+    color: var(--text) !important;
 }
 
 .custom-number-picker .picker-decrement {
@@ -390,6 +401,32 @@ button:hover {
 
 .custom-number-picker .picker-increment {
     border-radius: 0 5px 5px 0;
+}
+
+/* INTRO */
+
+.intro {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.intro h1 {
+    background: linear-gradient(90deg, var(--primary), var(--secondary));
+    background-clip: text;
+    color: transparent;
+    height: 42px;
+}  
+
+[data-theme="dark"] .intro h1 {
+    filter: brightness(125%);
+} 
+
+.intro p {
+    text-align: center;
+    max-width: 700px;
+    opacity: .75;
 }
 
 /* INPUT */
@@ -409,9 +446,6 @@ button:hover {
     display: grid;
     grid-template-columns: repeat(4, 1fr); 
     gap: 15px;
-    /* padding: 15px;
-    border: 1px solid var(--input);
-    border-radius: 5px; */
 }
 
 .exams #addExamButton {
@@ -436,10 +470,6 @@ button:hover {
     margin-bottom: 0;
     color: var(--text);
     text-transform: capitalize;
-    /* text-decoration: underline;
-    text-decoration-thickness: 2px;
-    text-decoration-color: var(--primary);
-    text-underline-offset: 4px; */
 }
 
 .exams .exam h4 {
@@ -473,8 +503,6 @@ button:hover {
 .exams .exam .delete-exam-btn {
     margin-top: auto;
     width: 100%;
-    /* background-color: transparent;
-    border: 1px solid #b6403c; */
 }
 
 @media (max-width: 850px) {
@@ -525,10 +553,19 @@ button:hover {
 
 .calculate #calculateButton {
     padding: 8px 18px;
-    /* font-size: 16px; */
+}
+
+@media (max-width: 450px) {
+    .calculate #calculateButton {
+        width: 100%;
+    }
 }
 
 /* OUTPUT */
+
+.output {
+    display: none;
+}
 
 .output-text {
     margin-bottom: 50px;
@@ -584,7 +621,7 @@ button:hover {
 }
 
 .exam-item {
-    color: #121612;
+    color: var(--text);
     display: flex;
     align-items: center;
     padding: 10px;
@@ -627,4 +664,16 @@ button:hover {
 
 .rank-3 .score-badge {
     background: var(--rank-3);
+}
+
+/* FOOTER */
+
+footer {
+    font-size: 14px;
+    font-weight: 400;
+    opacity: .75;
+}
+
+footer .tag {
+    text-align: center;
 }

@@ -10,12 +10,20 @@ calculateBtn.addEventListener('click', () => {
     if (bestCombinations === -1) {
         alertCalculate.style.display = "block";
         alertCalculate.textContent = 'Insert at least two exams';
+        
+        setTimeout(() => {
+            alertCalculate.style.display = "none";
+        }, 5000);
         return;
     }
 
     if (bestCombinations === -2) {
         alertCalculate.style.display = "block";
-        alertCalculate.textContent = 'The exams prepared at the same time must be less than total number of exams';
+        alertCalculate.textContent = "The number of exams prepared at the same time must be less than the total number of exams";
+
+        setTimeout(() => {
+            alertCalculate.style.display = "none";
+        }, 5000);
         return;
     }
 
@@ -24,6 +32,18 @@ calculateBtn.addEventListener('click', () => {
     }
 
     renderResults();
+
+    // scroll to output section
+    setTimeout(() => {
+        const container = document.querySelector('.output');
+        const offset = 50; 
+        const targetPosition = container.getBoundingClientRect().top + window.scrollY - offset;
+
+        window.scrollTo({
+            top: targetPosition,
+            behavior: 'smooth'
+        });
+    }, 100);
 });
 
 let bestCombinations;
@@ -34,8 +54,11 @@ function formatDate(date) {
 }
   
 function renderResults() {
+    const output = document.querySelector('.output');
     const outputText = document.querySelector('.output-text');
     const outputComb = document.querySelector('.combination-cards');
+
+    output.style.display = 'block';
 
     outputText.innerHTML = `
         <h2>Best Combinations</h2>

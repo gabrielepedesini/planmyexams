@@ -77,7 +77,7 @@ function addExamPopup() {
                 <input type="date" id="date-${currentDateId - 1}">
             </div>
         </div>
-        <button class="alt" id="addDateButton">Add date</button>
+        <button class="alt" id="addDateButton">Add Date</button>
         <h4>Minimum Days Required <span>(Optional)</span></h4>
         <div class="custom-number-picker">
             <button class="picker-decrement" id="decrementMinDays">-</button>
@@ -89,6 +89,14 @@ function addExamPopup() {
     `;
 
     examPopup.innerHTML = htmlContent;
+
+    // target exam name input
+    setTimeout(() => {
+        const examInput = document.getElementById('examName');
+        if (examInput) {
+            examInput.focus();
+        }
+    }, 100);
 
     // close popup 
     const closeExamPopupBtn = document.querySelector(".close-exam-popup"); 
