@@ -141,6 +141,9 @@ button:hover {
     --accent: #16ad1e;
     --alert: #D9534F;
 
+    --delete: #a8a8a8;
+    --delete-border: #757575;
+
     --input: #d4d4d4;
     --input-border: #a5a5a5;
 
@@ -157,19 +160,19 @@ button:hover {
 
 :root[data-theme="dark"] {
     --text: #e9ede9;
-    --background: #010201;
-    --background-secondary: #070c07;
+    --background: #010409;
+    --background-secondary: #0d1117;
     --background-transparent: #080c0886;
     --primary: #338f38;
     --secondary: #19501c;
     --accent: #15961c;
-    --alert: #D9534F;
+    --alert: #b93a36;
 
-    /* --input: #c2c2c2;
-    --input-border: #969696; */
+    --delete: #575757;
+    --delete-border: #3b3b3b;
 
-    --input: #212b21;
-    --input-border: #3a493a;
+    --input: #080a0e;
+    --input-border: #26282c;
 
     --rank-1: #338f38;
     --rank-2: #5a8d5c;
@@ -352,8 +355,8 @@ button:hover {
 }
 
 .exam-popup .date-input .delete {
-    background-color: var(--alert);
-    border: 1px solid #b6403c;
+    background-color: var(--delete);
+    border: 1px solid var(--delete-border);
     aspect-ratio: 1 / 1;
     width: 27px;
     height: 27px;
@@ -621,8 +624,8 @@ button:hover {
     background: var(--rank-rest);
     color: #f3f7f3;
     border-radius: 10px;
-    width: 40px;
-    height: 40px;
+    width: 36px;
+    height: 36px;
     display: flex;
     align-items: center;
     justify-content: center;
