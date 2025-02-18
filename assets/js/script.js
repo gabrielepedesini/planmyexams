@@ -31,7 +31,7 @@ function calcTotalDays(comb) {
 
 // calculates the balance of adjacent exam distances (max distance - min distance)
 function calcBalance(comb) {
-    const distances = [];
+    let distances = [];
     let sum = 0;
     let millisecondsInADay = 1000 * 60 * 60 * 24;
     let num = examPreparedAtTheSameTime;
@@ -44,7 +44,7 @@ function calcBalance(comb) {
         if (distance < comb[i].minDays) {
             return -1;
         }
-     }
+    }
 
     const avgDistance = sum / (comb.length - 1);
     const variance = distances.reduce((acc, dist) => 
@@ -88,8 +88,8 @@ function evaluateCombination(combination) {
     }
    
     const weight1 = 1;
-    const weight2 = 2;
-    const weight3 = 5;
+    const weight2 = 1.9;
+    const weight3 = 6;
     let score = (weight1 * totalDays) - (weight2 * balance) - (weight3 * sameDay);
 
     bestCombinationsInsert(combination, score);
@@ -162,7 +162,7 @@ export function getBestCombinations() {
         return -2;
     }
 
-    getExamPreparedAtTheSameTime()
+    getExamPreparedAtTheSameTime();
 
     // calculate all possible combinations
     const combinations = allCombinations(exams);

@@ -29,7 +29,7 @@ h3, h4, h5, h6 {
 }
 
 h1 {
-    font-size: 36px;
+    font-size: 40px;
 }
 
 h2 {
@@ -47,7 +47,7 @@ h4 {
 @media (max-width: 768px) {
     
     h1 {
-        font-size: 30px;
+        font-size: 36px;
     }
     
     h2 {
@@ -74,7 +74,7 @@ a[href^="tel"] {
 
 a {
     text-decoration: none;
-    color: var(--accent);
+    color: var(--primary);
     opacity: 1;
     transition: 0.3s opacity;
 }
@@ -133,19 +133,20 @@ button:hover {
 
 :root[data-theme="light"] {
     --text: #121612;
-    --background: #f3f7f3;
-    --background-secondary: #ececec;
-    --background-transparent: #f3f7f385;
-    --primary: #328f37;
-    --secondary: #6ab66c;
-    --accent: #16ad1e;
-    --alert: #D9534F;
+    --background: #f6f8fa;
+    --background-secondary: #ffffff;
+    --background-transparent: #ffffff85;
+    --primary: #1f883d;
+    --secondary: #6eaf7e;
+    --alert: #cf222e;
 
-    --delete: #a8a8a8;
+    --delete: #cacaca;
     --delete-border: #757575;
 
-    --input: #d4d4d4;
-    --input-border: #a5a5a5;
+    --input: #e0e0e0;
+    --input-border: #979797;
+
+    --text-shadow: #1f883d67;
 
     --rank-1: #338f38;
     --rank-2: #5a8d5c;
@@ -159,22 +160,23 @@ button:hover {
 }
 
 :root[data-theme="dark"] {
-    --text: #e9ede9;
+    --text: #ffffff;
     --background: #010409;
     --background-secondary: #0d1117;
-    --background-transparent: #080c0886;
-    --primary: #338f38;
-    --secondary: #19501c;
-    --accent: #15961c;
-    --alert: #b93a36;
+    --background-transparent: #0d111783;
+    --primary: #238636;
+    --secondary: #105823;
+    --alert: #da3633;
 
     --delete: #575757;
     --delete-border: #3b3b3b;
 
-    --input: #080a0e;
-    --input-border: #26282c;
+    --input: #1c1e27;
+    --input-border: #454649;
 
-    --rank-1: #338f38;
+    --text-shadow: #2386375e;
+
+    --rank-1: #238636;
     --rank-2: #5a8d5c;
     --rank-3: #758676;
     --rank-rest: #a8a8a8;
@@ -428,10 +430,10 @@ button:hover {
 }
 
 .intro h1 {
-    background: linear-gradient(90deg, var(--primary), var(--secondary));
-    background-clip: text;
-    color: transparent;
+    color: var(--primary);
+    /* text-shadow: 0px 0px 30px var(--text-shadow); */
     height: 42px;
+    margin-bottom: 25px;
 }  
 
 [data-theme="dark"] .intro h1 {
@@ -442,6 +444,7 @@ button:hover {
     text-align: center;
     max-width: 700px;
     opacity: .75;
+    margin-bottom: 30px;
 }
 
 /* INPUT */
