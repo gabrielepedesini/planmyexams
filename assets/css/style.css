@@ -430,7 +430,7 @@ button:hover {
 }
 
 .intro h1 {
-    color: var(--primary);
+    color: var(--text);
     /* text-shadow: 0px 0px 30px var(--text-shadow); */
     height: 42px;
     margin-bottom: 25px;
