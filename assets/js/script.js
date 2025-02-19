@@ -88,8 +88,8 @@ function evaluateCombination(combination) {
     }
    
     const weight1 = 1;
-    const weight2 = 1.9;
-    const weight3 = 6;
+    const weight2 = 2.2;
+    const weight3 = 5.5;
     let score = (weight1 * totalDays) - (weight2 * balance) - (weight3 * sameDay);
 
     bestCombinationsInsert(combination, score);

@@ -148,6 +148,8 @@ button:hover {
 
     --text-shadow: #1f883d67;
 
+    --exam-container-border: #c0c0c0;
+
     --rank-1: #338f38;
     --rank-2: #5a8d5c;
     --rank-3: #758676;
@@ -175,6 +177,8 @@ button:hover {
     --input-border: #454649;
 
     --text-shadow: #2386375e;
+
+    --exam-container-border: #1c1e27;
 
     --rank-1: #238636;
     --rank-2: #5a8d5c;
@@ -430,10 +434,12 @@ button:hover {
 }
 
 .intro h1 {
-    color: var(--primary);
-    /* text-shadow: 0px 0px 30px var(--text-shadow); */
+    color: var(--text);
     height: 42px;
     margin-bottom: 25px;
+    display: flex;
+    align-items: start;
+    gap: 5px;
 }  
 
 [data-theme="dark"] .intro h1 {
@@ -447,13 +453,22 @@ button:hover {
     margin-bottom: 30px;
 }
 
+.intro h1 span {
+    font-size: 14px;
+    font-weight: 500;
+    background-color: var(--secondary);
+    padding: 2px 5px;
+    border-radius: 10px;
+    margin-top: 3px;
+}
+
 /* INPUT */
 
 .input {
     display: flex;
     flex-direction: column;
     gap: 50px;
-    border: 1px solid var(--input);
+    border: 1px solid var(--exam-container-border);
     border-radius: 5px;
     padding: 25px;
 }
