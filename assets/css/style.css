@@ -156,6 +156,10 @@ button:hover {
     --rank-rest: #a8a8a8;
     --combination-card-shadow: rgba(0,0,0,0.15);
 
+    --datepicker-background: #f3f3f3;
+    --datepicker-border: #c0c0c0;
+    --datepicker-hover: #1f883d5e;
+
     --scrollbar: #e2e2e2;
     --scrollthumb: #adadad;
     --scrollthumb-hover: #888888;
@@ -185,6 +189,10 @@ button:hover {
     --rank-3: #758676;
     --rank-rest: #a8a8a8;
     --combination-card-shadow: rgba(255, 255, 255, 0.15);
+
+    --datepicker-background: #080a0e;
+    --datepicker-border: #1c1e27;
+    --datepicker-hover: #23863750;
 
     --scrollbar: #e2e2e2;
     --scrollthumb: #adadad;
@@ -392,7 +400,7 @@ button:hover {
     display: flex;
 }
 
-/* DATE PICKER */
+/* DAYS PICKER */
 
 .custom-number-picker {
     display: flex;
@@ -422,6 +430,51 @@ button:hover {
 
 .custom-number-picker .picker-increment {
     border-radius: 0 5px 5px 0;
+}
+
+/* DATE PICKER */
+
+.datepicker {
+    padding: 4px 8px !important;
+}
+
+.air-datepicker--pointer::after {
+    background: var(--datepicker-background) !important;
+    border-top: 1px solid var(--datepicker-border) !important;
+    border-right: 1px solid var(--datepicker-border) !important;
+}
+
+.air-datepicker {
+    background-color: var(--datepicker-background) !important; 
+    border: 1px solid var(--datepicker-border) !important;
+    color: var(--text) !important;
+}
+
+.air-datepicker-nav {
+    border: none !important;
+}
+
+.air-datepicker-nav--title:hover,
+.air-datepicker-cell:hover,
+.air-datepicker-nav--action:hover {
+    background-color: var(--datepicker-hover) !important;
+}
+
+.air-datepicker-cell.-current- {
+    color: var(--primary) !important;
+}
+
+.air-datepicker-cell.-other-month- {
+    opacity: .5 !important;
+}
+
+.air-datepicker-body--day-name {
+    color: var(--secondary) !important;
+}
+
+.air-datepicker-cell.-selected- {
+    background-color: var(--secondary) !important;
+    color: var(--text) !important;
 }
 
 /* INTRO */

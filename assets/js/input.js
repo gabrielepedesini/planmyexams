@@ -63,6 +63,9 @@ const examPopup = document.querySelector('.exam-popup');
 
 function addExamPopup() {
 
+    // prevent from scrolling
+    document.body.style.overflow = 'hidden';
+
     // display popup
     examPopupBackground.classList.add('show');
 
@@ -74,7 +77,7 @@ function addExamPopup() {
         <h4>Available Dates</h4>
         <div id="date-inputs">
             <div class="date-input">
-                <input type="date" id="date-${currentDateId - 1}">
+                <input type="text" class="datepicker" id="date-${currentDateId - 1}" readonly placeholder="Select a date">
             </div>
         </div>
         <button class="alt" id="addDateButton">
@@ -96,6 +99,30 @@ function addExamPopup() {
 
     examPopup.innerHTML = htmlContent;
 
+    // initialize date picker
+    new AirDatepicker(document.getElementById(`date-${currentDateId - 1}`), {
+        locale: {
+            days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+            daysShort: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+            daysMin: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
+            months: ['January','February','March','April','May','June', 'July','August','September','October','November','December'],
+            monthsShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            today: 'Today',
+            clear: 'Clear',
+            dateFormat: 'mm/dd/yyyy',
+            timeFormat: 'hh:ii aa',
+            firstDay: 1
+        },
+        dateFormat(date) {
+            return date.toLocaleString('en-GB', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric'
+            });
+        },
+        autoClose: true,
+    });
+
     // target exam name input
     setTimeout(() => {
         const examInput = document.getElementById('examName');
@@ -116,14 +143,17 @@ function addExamPopup() {
 
     addDateButton.addEventListener('click', () => {
         const newDateInput = document.createElement('input');
-        newDateInput.type = 'date';
+        newDateInput.type = 'text';
+        newDateInput.className = 'datepicker';
         newDateInput.id = `date-${currentDateId}`;
+        newDateInput.readOnly = true;
+        newDateInput.placeholder = "Select a date";
 
         const dateInputDelete = document.createElement('button');
         dateInputDelete.innerHTML = '<svg  xmlns="http://www.w3.org/2000/svg"  width="18"  height="18"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-circle-minus"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M9 12l6 0" /></svg>';
         dateInputDelete.className = 'delete';
         dateInputDelete.addEventListener('click', () => {
-            dateInputContainer.remove(); 
+            dateInputContainer.remove();
         });
 
         const dateInputContainer = document.createElement('div');
@@ -131,10 +161,29 @@ function addExamPopup() {
         dateInputContainer.appendChild(newDateInput);
         dateInputContainer.appendChild(dateInputDelete);
 
-        const dateInputsContainer = document.getElementById('date-inputs');
-        dateInputsContainer.appendChild(dateInputContainer);
+        document.getElementById('date-inputs').appendChild(dateInputContainer);
 
-        currentDateId++; 
+        new AirDatepicker(newDateInput, {
+            locale: {
+                days: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+                daysShort: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+                daysMin: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
+                months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+                monthsShort: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"], today: "Today",
+                clear: "Clear",
+                firstDay: 1
+            },
+            dateFormat(date) {
+                return date.toLocaleString('en-GB', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric'
+                });
+            },
+            autoClose: true,
+        });
+
+        currentDateId++;
     });
 
     // min days picker
@@ -168,7 +217,7 @@ function addExamPopup() {
         const examName = document.getElementById('examName').value.trim();
         const minDays = currentNumber;
 
-        const dateInputs = document.querySelectorAll('#date-inputs input[type="date"]');
+        const dateInputs = document.querySelectorAll('#date-inputs input[type="text"]');
         const dates = Array.from(dateInputs).map(input => input.value);
 
         if (!examName) {
@@ -187,7 +236,10 @@ function addExamPopup() {
             return;
         }
 
-        const uniqueDates = [...new Set(dates)];
+        const uniqueDates = [...new Set(dates.map(dateStr => {
+            const [day, month, year] = dateStr.split('/');
+            return new Date(`${year}-${month}-${day}`);
+        }))];
 
         uniqueDates.sort((a, b) => new Date(a) - new Date(b));
 
@@ -266,11 +318,16 @@ function examAdded() {
     addExamButton.parentNode.insertBefore(newExamDiv, addExamButton);
 
     currentExamId++;
-    examPopupBackground.classList.remove('show');
+
+    closeExamPopup();
 }
 
 // close exam popup
 function closeExamPopup() {
+    
+    // re-enable scrolling
+    document.body.style.overflow = 'auto';
+
     examPopupBackground.classList.remove('show');
 }
 
