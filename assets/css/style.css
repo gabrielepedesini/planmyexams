@@ -465,6 +465,7 @@ button:hover {
 }
 
 .air-datepicker-cell.-other-month- {
+    color: var(--text) !important;
     opacity: .5 !important;
 }
 
