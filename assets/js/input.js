@@ -1,3 +1,4 @@
+// test input
 const input = [
     [
         { name: "Ingegneria del SW", date: new Date("2025-01-13"), minDays: -1 },
@@ -21,6 +22,7 @@ const input = [
     ]
 ];
 
+// retrieves user input
 export function getExamsInfo() {
 
     const formattedExams = exams.map(exam =>
@@ -236,10 +238,12 @@ function addExamPopup() {
             return;
         }
 
-        const uniqueDates = [...new Set(dates.map(dateStr => {
+        const uniqueDateStrings = [...new Set(dates.map(dateStr => {
             const [day, month, year] = dateStr.split('/');
-            return new Date(`${year}-${month}-${day}`);
+            return `${year}-${month}-${day}`; // format to a unique string
         }))];
+        
+        const uniqueDates = uniqueDateStrings.map(dateStr => new Date(dateStr));
 
         uniqueDates.sort((a, b) => new Date(a) - new Date(b));
 

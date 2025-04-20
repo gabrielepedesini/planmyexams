@@ -3,6 +3,7 @@ import { getBestCombinations, getExamPreparedAtTheSameTime } from './script.js';
 const alertCalculate = document.getElementById('alertCalculate');
 const calculateBtn = document.getElementById('calculateButton');
 
+// calulate combination event listener
 calculateBtn.addEventListener('click', () => {
     bestCombinations = getBestCombinations();
     examPreparedAtTheSameTime = getExamPreparedAtTheSameTime();
@@ -53,6 +54,7 @@ function formatDate(date) {
     return new Date(date).toLocaleDateString('en-GB');
 }
   
+// renders results
 function renderResults() {
     const output = document.querySelector('.output');
     const outputText = document.querySelector('.output-text');

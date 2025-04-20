@@ -1,5 +1,28 @@
 import { getExamsInfo } from './input.js';
 
+// number of exams at the same time picker
+const decrementButton = document.getElementById('decrementAtSameTime');
+const incrementButton = document.getElementById('incrementAtSameTime');
+const numberDisplay = document.getElementById('atSameTime');
+
+let examPreparedAtTheSameTime = 1;
+
+function updateNumberDisplay() {
+    numberDisplay.textContent = examPreparedAtTheSameTime;
+}
+
+decrementButton.addEventListener('click', () => {
+    if (examPreparedAtTheSameTime > 1) {
+        examPreparedAtTheSameTime--;
+        updateNumberDisplay();
+    }
+});
+
+incrementButton.addEventListener('click', () => {
+    examPreparedAtTheSameTime++;
+    updateNumberDisplay();
+});
+
 // get user exams informations
 let exams;
 
@@ -87,8 +110,8 @@ function evaluateCombination(combination) {
         return;
     }
    
-    const weight1 = 1;
-    const weight2 = 2.2;
+    const weight1 = 1 * examPreparedAtTheSameTime;
+    const weight2 = 2;
     const weight3 = 5.5;
     let score = (weight1 * totalDays) - (weight2 * balance) - (weight3 * sameDay);
 
@@ -114,29 +137,6 @@ function bestCombinationsInsert(comb, s) {
         bestCombinations.pop();
     }
 }
-
-// number of exams at the same time picker
-const decrementButton = document.getElementById('decrementAtSameTime');
-const incrementButton = document.getElementById('incrementAtSameTime');
-const numberDisplay = document.getElementById('atSameTime');
-
-let examPreparedAtTheSameTime = 1;
-
-function updateNumberDisplay() {
-    numberDisplay.textContent = examPreparedAtTheSameTime;
-}
-
-decrementButton.addEventListener('click', () => {
-    if (examPreparedAtTheSameTime > 1) {
-        examPreparedAtTheSameTime--;
-        updateNumberDisplay();
-    }
-});
-
-incrementButton.addEventListener('click', () => {
-    examPreparedAtTheSameTime++;
-    updateNumberDisplay();
-});
 
 // extract number of exams prepared at the same time
 export function getExamPreparedAtTheSameTime() {
