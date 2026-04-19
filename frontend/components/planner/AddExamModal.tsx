@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 
-import { normalizeDates } from "@/lib/planner/date";
+import { normalizeDates, toGbDate } from "@/lib/planner/date";
 import type { PlannerMessages } from "@/lib/planner/types";
 
 import { DatePickerInput } from "./DatePickerInput";
@@ -23,6 +23,8 @@ type AddExamModalProps = {
     isOpen: boolean;
     existingNames: string[];
     messages: PlannerMessages;
+    mode: "add" | "edit";
+    initialDraft?: DraftExam | null;
     onClose: () => void;
     onSave: (draftExam: DraftExam) => void;
 };
@@ -33,6 +35,8 @@ export function AddExamModal({
     isOpen,
     existingNames,
     messages,
+    mode,
+    initialDraft,
     onClose,
     onSave,
 }: AddExamModalProps): React.JSX.Element | null {
@@ -60,6 +64,41 @@ export function AddExamModal({
             document.body.style.overflow = "auto";
         };
     }, [isOpen]);
+
+    useEffect(() => {
+        if (!isOpen) {
+            return;
+        }
+
+        if (!initialDraft) {
+            setExamName("");
+            setDateFields([{ id: FIRST_DATE_ID, value: "" }]);
+            setMinDays(0);
+            setErrorMessage("");
+            nextDateId.current = 1;
+            return;
+        }
+
+        if (initialDraft.dates.length === 0) {
+            setExamName(initialDraft.name);
+            setDateFields([{ id: FIRST_DATE_ID, value: "" }]);
+            setMinDays(initialDraft.minDays > 0 ? initialDraft.minDays : 0);
+            setErrorMessage("");
+            nextDateId.current = 1;
+            return;
+        }
+
+        setExamName(initialDraft.name);
+        setDateFields(
+            initialDraft.dates.map((date, index) => ({
+                id: index,
+                value: toGbDate(date),
+            })),
+        );
+        setMinDays(initialDraft.minDays > 0 ? initialDraft.minDays : 0);
+        setErrorMessage("");
+        nextDateId.current = initialDraft.dates.length;
+    }, [initialDraft, isOpen]);
 
     useEffect(() => {
         if (!isOpen) {
@@ -131,7 +170,7 @@ export function AddExamModal({
                     ✕
                 </button>
 
-                <h2>{messages.addExamModalTitle}</h2>
+                <h2>{mode === "edit" ? messages.editExamModalTitle : messages.addExamModalTitle}</h2>
 
                 <label className="visually-hidden" htmlFor="exam-name-input">
                     {messages.examNameLabel}

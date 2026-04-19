@@ -330,9 +330,15 @@ section {
     font-weight: 700;
 }
 
+.exam-actions {
+    margin-top: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.4rem;
+}
+
 .delete-exam-btn {
     width: 100%;
-    margin-top: auto;
 }
 
 .exams-at-the-same-time,

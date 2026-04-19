@@ -4,10 +4,11 @@ import type { Exam, PlannerMessages } from "@/lib/planner/types";
 type ExamCardProps = {
     exam: Exam;
     messages: PlannerMessages;
+    onEdit: (exam: Exam) => void;
     onDelete: (id: string) => void;
 };
 
-export function ExamCard({ exam, messages, onDelete }: ExamCardProps): React.JSX.Element {
+export function ExamCard({ exam, messages, onEdit, onDelete }: ExamCardProps): React.JSX.Element {
     return (
         <article className="exam">
             <h3>{exam.name}</h3>
@@ -28,9 +29,14 @@ export function ExamCard({ exam, messages, onDelete }: ExamCardProps): React.JSX
                 </div>
             ) : null}
 
-            <button className="button-alt delete-exam-btn" type="button" onClick={() => onDelete(exam.id)}>
-                {messages.delete}
-            </button>
+            <div className="exam-actions">
+                <button className="button-alt" type="button" onClick={() => onEdit(exam)}>
+                    {messages.edit}
+                </button>
+                <button className="button-alt delete-exam-btn" type="button" onClick={() => onDelete(exam.id)}>
+                    {messages.delete}
+                </button>
+            </div>
         </article>
     );
 }

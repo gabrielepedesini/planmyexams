@@ -24,6 +24,7 @@ export type PlannerMessages = {
     heroDescription: string;
     addExam: string;
     addExamModalTitle: string;
+    editExamModalTitle: string;
     examNameLabel: string;
     examNamePlaceholder: string;
     availableDates: string;
@@ -31,6 +32,7 @@ export type PlannerMessages = {
     minimumDaysLabel: string;
     optional: string;
     save: string;
+    edit: string;
     delete: string;
     requiredDays: string;
     datesLabel: string;
