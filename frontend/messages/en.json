@@ -1,0 +1,46 @@
+{
+    "general": {
+        "siteName": "PlanMyExams",
+        "title": "PlanMyExams",
+        "description": "Plan your exam schedule and discover the strongest combinations in seconds.",
+        "imageAlt": "PlanMyExams preview"
+    },
+    "error": {
+        "notFound": "The page you are looking for does not exist"
+    },
+    "planner": {
+        "heroTitle": "PlanMyExams",
+        "beta": "Beta",
+        "heroDescription": "Effortlessly plan your exam schedule and find the most optimal dates in seconds",
+        "addExam": "Add Exam",
+        "addExamModalTitle": "New Exam",
+        "examNameLabel": "Exam Name",
+        "examNamePlaceholder": "Name",
+        "availableDates": "Available Dates",
+        "addDate": "Add Date",
+        "minimumDaysLabel": "Minimum Days Required",
+        "optional": "Optional",
+        "save": "Save",
+        "delete": "Delete",
+        "requiredDays": "Required Days",
+        "datesLabel": "Dates",
+        "sameTimeQuestion": "How many exams do you prepare for at the same time?",
+        "calculate": "Find Best Combinations",
+        "calculateErrorMinExams": "Insert at least two exams",
+        "calculateErrorSameTime": "The number of exams prepared at the same time must be less than the total number of exams",
+        "outputTitle": "Best Combinations",
+        "outputDescriptionPrefix": "These combinations have been evaluated considering the preparation of",
+        "outputDescriptionSuffix": "at the same time.",
+        "outputDescriptionExamSingular": "exam",
+        "outputDescriptionExamPlural": "exams",
+        "outputScoreHint": "Each combination has a score in the top right corner showing how optimal it is.",
+        "combination": "Combination",
+        "modalErrorNoName": "Please enter an exam name",
+        "modalErrorMissingDates": "Please fill in all date fields",
+        "modalErrorDuplicateName": "An exam with this name already exists: please use a different name",
+        "datePlaceholder": "Select a date",
+        "footerPrefix": "Designed and developed by",
+        "footerAuthor": "Gabriele Pedesini",
+        "footerUrl": "https://www.gabrielepedesini.com"
+    }
+}

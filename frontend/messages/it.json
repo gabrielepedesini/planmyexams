@@ -1,0 +1,46 @@
+{
+    "general": {
+        "siteName": "PlanMyExams",
+        "title": "PlanMyExams",
+        "description": "Pianifica le sessioni d'esame e trova le combinazioni migliori in pochi secondi.",
+        "imageAlt": "Anteprima di PlanMyExams"
+    },
+    "error": {
+        "notFound": "La pagina che stai cercando non esiste"
+    },
+    "planner": {
+        "heroTitle": "PlanMyExams",
+        "beta": "Beta",
+        "heroDescription": "Pianifica con facilità la tua sessione d'esami e trova in pochi secondi le date più convenienti",
+        "addExam": "Aggiungi esame",
+        "addExamModalTitle": "Nuovo esame",
+        "examNameLabel": "Nome esame",
+        "examNamePlaceholder": "Nome",
+        "availableDates": "Date disponibili",
+        "addDate": "Aggiungi data",
+        "minimumDaysLabel": "Giorni minimi richiesti",
+        "optional": "Opzionale",
+        "save": "Salva",
+        "delete": "Elimina",
+        "requiredDays": "Giorni richiesti",
+        "datesLabel": "Date",
+        "sameTimeQuestion": "Quanti esami prepari contemporaneamente?",
+        "calculate": "Trova le combinazioni migliori",
+        "calculateErrorMinExams": "Inserisci almeno due esami",
+        "calculateErrorSameTime": "Il numero di esami preparati contemporaneamente deve essere inferiore al numero totale di esami",
+        "outputTitle": "Combinazioni migliori",
+        "outputDescriptionPrefix": "Queste combinazioni sono state valutate considerando la preparazione di",
+        "outputDescriptionSuffix": "alla volta.",
+        "outputDescriptionExamSingular": "esame",
+        "outputDescriptionExamPlural": "esami",
+        "outputScoreHint": "Ogni combinazione ha un punteggio in alto a destra che mostra quanto è ottimale.",
+        "combination": "Combinazione",
+        "modalErrorNoName": "Inserisci il nome dell'esame",
+        "modalErrorMissingDates": "Compila tutti i campi data",
+        "modalErrorDuplicateName": "Esiste già un esame con questo nome: usa un nome diverso",
+        "datePlaceholder": "Seleziona una data",
+        "footerPrefix": "Progettato e sviluppato da",
+        "footerAuthor": "Gabriele Pedesini",
+        "footerUrl": "https://www.gabrielepedesini.com"
+    }
+}
