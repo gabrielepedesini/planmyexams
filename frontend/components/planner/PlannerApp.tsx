@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 
 import { ToggleTheme } from "@/components/ToggleTheme";
 import { getBestCombinations } from "@/lib/planner/optimizer";
-import type { CombinationResult, Exam, PlannerMessages } from "@/lib/planner/types";
+import type { CombinationResult, DraftExam, Exam, ExamEntryMode, PlannerMessages } from "@/lib/planner/types";
 
 import { AddExamModal } from "./AddExamModal";
 import { ExamCard } from "./ExamCard";
@@ -15,27 +15,22 @@ type PlannerAppProps = {
     messages: PlannerMessages;
 };
 
-type DraftExam = {
-    name: string;
-    dates: Date[];
-    minDays: number;
-};
-
 const ADD_EXAM_BUTTON_COOLDOWN = 1000;
 const CALCULATE_ALERT_TIMEOUT = 5000;
 
 export function PlannerApp({ messages }: PlannerAppProps): React.JSX.Element {
     const [exams, setExams] = useState<Exam[]>([]);
-    const [nextExamId, setNextExamId] = useState(0);
     const [sameTimeCount, setSameTimeCount] = useState(1);
     const [results, setResults] = useState<CombinationResult[]>([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editingExamId, setEditingExamId] = useState<string | null>(null);
+    const [addEntryMode, setAddEntryMode] = useState<ExamEntryMode>("single");
     const [isAddExamButtonLocked, setIsAddExamButtonLocked] = useState(false);
     const [calculateError, setCalculateError] = useState("");
     const [hasCalculated, setHasCalculated] = useState(false);
 
     const outputRef = useRef<HTMLDivElement>(null);
+    const nextExamId = useRef(0);
 
     useEffect(() => {
         if (!calculateError) {
@@ -54,14 +49,16 @@ export function PlannerApp({ messages }: PlannerAppProps): React.JSX.Element {
     const closeModal = (): void => {
         setIsModalOpen(false);
         setEditingExamId(null);
+        setAddEntryMode("single");
     };
 
-    const openAddModal = (): void => {
+    const openAddModal = (entryMode: ExamEntryMode = "single"): void => {
         if (isAddExamButtonLocked) {
             return;
         }
 
         setEditingExamId(null);
+        setAddEntryMode(entryMode);
         setIsAddExamButtonLocked(true);
         setIsModalOpen(true);
 
@@ -97,14 +94,33 @@ export function PlannerApp({ messages }: PlannerAppProps): React.JSX.Element {
         setExams((currentExams) => [
             ...currentExams,
             {
-                id: `exam-${nextExamId}`,
+                id: `exam-${nextExamId.current}`,
                 name,
                 dates,
                 minDays,
             },
         ]);
 
-        setNextExamId((currentId) => currentId + 1);
+        nextExamId.current += 1;
+        closeModal();
+    };
+
+    const saveBulkExams = (draftExams: DraftExam[]): void => {
+        setExams((currentExams) => [
+            ...currentExams,
+            ...draftExams.map((exam) => {
+                const id = `exam-${nextExamId.current}`;
+                nextExamId.current += 1;
+
+                return {
+                    id,
+                    name: exam.name,
+                    dates: exam.dates,
+                    minDays: exam.minDays,
+                };
+            }),
+        ]);
+
         closeModal();
     };
 
@@ -157,27 +173,32 @@ export function PlannerApp({ messages }: PlannerAppProps): React.JSX.Element {
 
     return (
         <>
-            <AddExamModal
-                isOpen={isModalOpen}
-                mode={editingExam ? "edit" : "add"}
-                initialDraft={
-                    editingExam
-                        ? {
-                              name: editingExam.name,
-                              dates: editingExam.dates,
-                              minDays: editingExam.minDays,
-                          }
-                        : null
-                }
-                existingNames={
-                    exams
-                        .filter((exam) => exam.id !== editingExamId)
-                        .map((exam) => exam.name)
-                }
-                messages={messages}
-                onClose={closeModal}
-                onSave={saveExam}
-            />
+            {isModalOpen ? (
+                <AddExamModal
+                    key={editingExamId ?? `add-${addEntryMode}`}
+                    isOpen={isModalOpen}
+                    mode={editingExam ? "edit" : "add"}
+                    initialEntryMode={addEntryMode}
+                    initialDraft={
+                        editingExam
+                            ? {
+                                  name: editingExam.name,
+                                  dates: editingExam.dates,
+                                  minDays: editingExam.minDays,
+                              }
+                            : null
+                    }
+                    existingNames={
+                        exams
+                            .filter((exam) => exam.id !== editingExamId)
+                            .map((exam) => exam.name)
+                    }
+                    messages={messages}
+                    onClose={closeModal}
+                    onSave={saveExam}
+                    onSaveBulk={saveBulkExams}
+                />
+            ) : null}
 
             <section className="container app-header">
                 <div className="top-controls">
@@ -197,15 +218,41 @@ export function PlannerApp({ messages }: PlannerAppProps): React.JSX.Element {
                     <div className="planner-layout">
                         <div className="planner-layout-main">
                             <div className="exams">
-                                <button
-                                    id="addExamButton"
-                                    type="button"
-                                    className="add-exam-button"
-                                    onClick={openAddModal}
-                                    disabled={isAddExamButtonLocked}
-                                >
-                                    {messages.addExam}
-                                </button>
+                                {exams.length === 0 ? (
+                                    <div className="empty-add-actions" aria-label={messages.addExam}>
+                                        <div className="empty-add-actions-links">
+                                            <button
+                                                type="button"
+                                                className="link-action-button"
+                                                onClick={() => openAddModal("single")}
+                                                disabled={isAddExamButtonLocked}
+                                            >
+                                                {messages.emptyStateAddManually}
+                                            </button>
+
+                                            <span className="empty-add-actions-or">{messages.emptyStateOr}</span>
+
+                                            <button
+                                                type="button"
+                                                className="link-action-button"
+                                                onClick={() => openAddModal("bulk")}
+                                                disabled={isAddExamButtonLocked}
+                                            >
+                                                {messages.emptyStateAddByPasting}
+                                            </button>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <button
+                                        id="addExamButton"
+                                        type="button"
+                                        className="add-exam-button"
+                                        onClick={() => openAddModal("single")}
+                                        disabled={isAddExamButtonLocked}
+                                    >
+                                        {messages.addExam}
+                                    </button>
+                                )}
 
                                 {exams.map((exam) => (
                                     <ExamCard

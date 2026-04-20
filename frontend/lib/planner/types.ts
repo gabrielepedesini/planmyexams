@@ -5,6 +5,14 @@ export type Exam = {
     minDays: number;
 };
 
+export type DraftExam = {
+    name: string;
+    dates: Date[];
+    minDays: number;
+};
+
+export type ExamEntryMode = "single" | "bulk";
+
 export type ExamOption = {
     name: string;
     date: Date;
@@ -23,11 +31,29 @@ export type PlannerMessages = {
     beta: string;
     heroDescription: string;
     addExam: string;
+    emptyStateAddManually: string;
+    emptyStateOr: string;
+    emptyStateAddByPasting: string;
+    emptyStateAddByPastingHint: string;
+    entryModeLabel: string;
+    entryModeSingle: string;
+    entryModeBulk: string;
     addExamModalTitle: string;
     editExamModalTitle: string;
     examNameLabel: string;
     examNamePlaceholder: string;
     availableDates: string;
+    bulkPasteLabel: string;
+    bulkPastePlaceholder: string;
+    bulkPasteSave: string;
+    bulkSyntaxAccordionTitle: string;
+    bulkSyntaxAccordionBody: string;
+    bulkAiAccordionTitle: string;
+    bulkAiAccordionBody: string;
+    bulkAiPromptTitle: string;
+    bulkAiPromptTemplate: string;
+    bulkAiPromptCopy: string;
+    bulkAiPromptCopied: string;
     addDate: string;
     minimumDaysLabel: string;
     optional: string;
@@ -50,6 +76,8 @@ export type PlannerMessages = {
     modalErrorNoName: string;
     modalErrorMissingDates: string;
     modalErrorDuplicateName: string;
+    modalErrorBulkEmpty: string;
+    modalErrorBulkSyntax: string;
     datePlaceholder: string;
     footerPrefix: string;
     footerAuthor: string;

@@ -285,6 +285,59 @@ section {
     opacity: 0.7;
 }
 
+.empty-add-actions {
+    grid-column: 1 / -1;
+    width: 100%;
+    min-height: clamp(180px, 34vh, 340px);
+    padding: 0;
+    display: grid;
+    place-items: center;
+}
+
+.empty-add-actions-links {
+    display: grid;
+    justify-items: center;
+    gap: 0.32rem;
+}
+
+.link-action-button {
+    width: max-content;
+    border: 0;
+    background: transparent;
+    color: var(--accent);
+    font-weight: 700;
+    text-align: center;
+    padding: 0;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 2px;
+}
+
+.empty-add-actions-or {
+    color: var(--muted-text);
+    font-size: 0.86rem;
+    font-weight: 600;
+    text-transform: lowercase;
+}
+
+.link-action-button:hover {
+    color: var(--accent-hover);
+}
+
+.link-action-button:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+.empty-add-actions-hint {
+    margin-top: 0.1rem;
+    color: var(--muted-text);
+    font-size: 0.82rem;
+    line-height: 1.35;
+    text-align: center;
+    max-width: 36ch;
+}
+
 .exam {
     border: 1px solid var(--border);
     border-radius: 14px;
@@ -589,6 +642,32 @@ section {
     margin-bottom: 0.75rem;
 }
 
+.entry-mode-switch {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.45rem;
+    margin-bottom: 0.9rem;
+}
+
+.entry-mode-button {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--surface-muted);
+    color: var(--text);
+    font-weight: 600;
+    padding: 0.56rem 0.7rem;
+}
+
+.entry-mode-button:hover {
+    border-color: var(--accent);
+}
+
+.entry-mode-button-active {
+    border-color: var(--accent);
+    background: var(--accent-soft);
+    color: var(--accent);
+}
+
 .exam-popup h4 {
     margin-top: 0.95rem;
     margin-bottom: 0.45rem;
@@ -610,7 +689,76 @@ section {
     padding: 0.62rem 0.7rem;
 }
 
+.bulk-import-textarea {
+    width: 100%;
+    resize: vertical;
+    min-height: 170px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--surface-muted);
+    color: var(--text);
+    font-size: 0.9rem;
+    line-height: 1.45;
+    font-family: var(--font-geist-mono), monospace;
+    padding: 0.62rem 0.7rem;
+}
+
+.bulk-help-accordion {
+    margin-top: 0.68rem;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--surface-muted);
+    padding: 0.55rem 0.62rem;
+}
+
+.bulk-help-accordion summary {
+    cursor: pointer;
+    font-weight: 700;
+    color: var(--text);
+}
+
+.bulk-help-accordion p {
+    margin-top: 0.5rem;
+    color: var(--muted-text);
+    font-size: 0.86rem;
+    line-height: 1.4;
+}
+
+.bulk-ai-prompt-title {
+    margin-bottom: 0.4rem;
+    color: var(--text);
+    font-size: 0.86rem;
+    font-weight: 700;
+}
+
+.bulk-ai-prompt-textarea {
+    width: 100%;
+    resize: none;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--surface);
+    color: var(--text);
+    font-size: 0.82rem;
+    line-height: 1.4;
+    font-family: var(--font-geist-mono), monospace;
+    padding: 0.58rem 0.62rem;
+}
+
+.bulk-ai-copy-button {
+    margin-top: 0.48rem;
+}
+
 .exam-popup input[type="text"]:focus {
+    outline: 2px solid color-mix(in srgb, var(--accent), transparent 70%);
+    border-color: var(--accent);
+}
+
+.bulk-import-textarea:focus {
+    outline: 2px solid color-mix(in srgb, var(--accent), transparent 70%);
+    border-color: var(--accent);
+}
+
+.bulk-ai-prompt-textarea:focus {
     outline: 2px solid color-mix(in srgb, var(--accent), transparent 70%);
     border-color: var(--accent);
 }

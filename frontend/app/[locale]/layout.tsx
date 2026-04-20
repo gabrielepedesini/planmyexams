@@ -26,7 +26,16 @@ const merriweather = Merriweather({
 export async function generateMetadata({ params, }: { params: Promise<{ locale: string }>; }): Promise<Metadata> {
 	const { locale } = await params;
 	const messages = await getMessages({ locale });
-	const text = (messages as any).general || {};
+	const text =
+		(messages as {
+			general?: {
+				siteName?: string;
+				description?: string;
+				title?: string;
+				imageAlt?: string;
+				image?: string;
+			};
+		}).general ?? {};
 
 	return {
 		title: text.siteName,
