@@ -24,13 +24,15 @@ const defaultPlannerMessages: PlannerMessages = {
 	bulkPasteSave: "Import Exams",
 	bulkSyntaxAccordionTitle: "Required Syntax",
 	bulkSyntaxAccordionBody:
-		"Use blocks with this format: Exam: <EXAM NAME>, then Dates:, then one or more lines starting with - dd/mm/yyyy.",
+		"Use one block per exam with this exact structure: Exam: <EXAM NAME>, then Dates:, then one or more lines starting with - dd/mm/yyyy. Keep exactly one empty line between exam blocks.",
+	bulkSyntaxExample:
+		"Exam: Physics 1\nDates:\n- 14/06/2026\n- 21/06/2026\n\nExam: Calculus\nDates:\n- 18/06/2026",
 	bulkAiAccordionTitle: "Use AI From Image",
 	bulkAiAccordionBody:
-		"Copy the prompt below, paste it into your AI chatbot, attach an image with your exam list, and paste back the generated result here.",
+		"Copy the prompt below, paste it into your AI chatbot, attach an image with your exam list, then paste the generated plain text result here.",
 	bulkAiPromptTitle: "Prompt to copy",
 	bulkAiPromptTemplate:
-		"I will send you an image containing exam names and possible dates.\nExtract all exams and return ONLY this format:\n\nExam: <EXAM NAME>\nDates:\n- dd/mm/yyyy\n- dd/mm/yyyy\n\nRules:\n- Keep one block per exam.\n- Separate different exam blocks with exactly one empty line.\n- Use date format dd/mm/yyyy.\n- Keep the exact labels 'Exam:' and 'Dates:'.\n- Return the result as markdown plain text in a single copyable code block.\n- Do not add explanations or extra text outside the code block.",
+		"I will send you an image containing exam names and possible dates.\nExtract all exams and return ONLY plain text in this exact format:\n\nExam: <EXAM NAME>\nDates:\n- dd/mm/yyyy\n- dd/mm/yyyy\n\nExam: <EXAM NAME>\nDates:\n- dd/mm/yyyy\n\nRules:\n- Keep one block per exam.\n- Separate different exam blocks with exactly one empty line.\n- Use date format dd/mm/yyyy.\n- Keep the exact labels 'Exam:' and 'Dates:' (case-sensitive).\n- Every date line must start with '- '.\n- Do NOT use markdown code fences (```), bullets outside date lines, or any extra text before/after the blocks.",
 	bulkAiPromptCopy: "Copy Prompt",
 	bulkAiPromptCopied: "Prompt Copied",
 	addDate: "Add Date",

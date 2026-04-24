@@ -48,6 +48,7 @@ export type PlannerMessages = {
     bulkPasteSave: string;
     bulkSyntaxAccordionTitle: string;
     bulkSyntaxAccordionBody: string;
+    bulkSyntaxExample: string;
     bulkAiAccordionTitle: string;
     bulkAiAccordionBody: string;
     bulkAiPromptTitle: string;

@@ -21,11 +21,14 @@ export function parseBulkExamText(value: string): BulkImportParseResult {
         .replace(/\u00A0/g, " ")
         .trim();
 
-    if (!normalizedInput) {
+    const codeFenceMatch = normalizedInput.match(/^```(?:[a-zA-Z0-9_-]+)?\n([\s\S]*?)\n```$/);
+    const parserInput = (codeFenceMatch ? codeFenceMatch[1] : normalizedInput).trim();
+
+    if (!parserInput) {
         return { error: "empty" };
     }
 
-    const blocks = normalizedInput.split(EXAM_BLOCK_SEPARATOR).filter((block) => block.trim().length > 0);
+    const blocks = parserInput.split(EXAM_BLOCK_SEPARATOR).filter((block) => block.trim().length > 0);
 
     if (blocks.length === 0) {
         return { error: "invalid-format" };

@@ -1,5 +1,6 @@
 import { toGbDate } from "@/lib/planner/date";
 import type { Exam, PlannerMessages } from "@/lib/planner/types";
+import { FiEdit2, FiTrash2 } from "react-icons/fi";
 
 type ExamCardProps = {
     exam: Exam;
@@ -30,10 +31,12 @@ export function ExamCard({ exam, messages, onEdit, onDelete }: ExamCardProps): R
             ) : null}
 
             <div className="exam-actions">
-                <button className="button-alt" type="button" onClick={() => onEdit(exam)}>
+                <button className="button-alt edit-exam-btn button-with-icon" type="button" onClick={() => onEdit(exam)}>
+                    <FiEdit2 className="button-icon" aria-hidden="true" focusable="false" />
                     {messages.edit}
                 </button>
-                <button className="button-alt delete-exam-btn" type="button" onClick={() => onDelete(exam.id)}>
+                <button className="button-alt delete-exam-btn button-with-icon" type="button" onClick={() => onDelete(exam.id)}>
+                    <FiTrash2 className="button-icon" aria-hidden="true" focusable="false" />
                     {messages.delete}
                 </button>
             </div>

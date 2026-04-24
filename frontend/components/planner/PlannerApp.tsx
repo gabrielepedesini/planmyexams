@@ -1,8 +1,11 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
+import { FaGithub, FaLinkedinIn } from "react-icons/fa";
+import { FiClipboard, FiPlusCircle, FiZap } from "react-icons/fi";
 
 import { ToggleTheme } from "@/components/ToggleTheme";
+import { useToast } from "@/components/ToastProvider";
 import { getBestCombinations } from "@/lib/planner/optimizer";
 import type { CombinationResult, DraftExam, Exam, ExamEntryMode, PlannerMessages } from "@/lib/planner/types";
 
@@ -16,7 +19,6 @@ type PlannerAppProps = {
 };
 
 const ADD_EXAM_BUTTON_COOLDOWN = 1000;
-const CALCULATE_ALERT_TIMEOUT = 5000;
 
 export function PlannerApp({ messages }: PlannerAppProps): React.JSX.Element {
     const [exams, setExams] = useState<Exam[]>([]);
@@ -26,25 +28,12 @@ export function PlannerApp({ messages }: PlannerAppProps): React.JSX.Element {
     const [editingExamId, setEditingExamId] = useState<string | null>(null);
     const [addEntryMode, setAddEntryMode] = useState<ExamEntryMode>("single");
     const [isAddExamButtonLocked, setIsAddExamButtonLocked] = useState(false);
-    const [calculateError, setCalculateError] = useState("");
     const [hasCalculated, setHasCalculated] = useState(false);
+
+    const { showToast } = useToast();
 
     const outputRef = useRef<HTMLDivElement>(null);
     const nextExamId = useRef(0);
-
-    useEffect(() => {
-        if (!calculateError) {
-            return;
-        }
-
-        const timeoutId = window.setTimeout(() => {
-            setCalculateError("");
-        }, CALCULATE_ALERT_TIMEOUT);
-
-        return () => {
-            window.clearTimeout(timeoutId);
-        };
-    }, [calculateError]);
 
     const closeModal = (): void => {
         setIsModalOpen(false);
@@ -126,7 +115,11 @@ export function PlannerApp({ messages }: PlannerAppProps): React.JSX.Element {
 
     const deleteExam = (examId: string): void => {
         setExams((currentExams) => currentExams.filter((exam) => exam.id !== examId));
+        setResults([]);
+        setHasCalculated(false);
     };
+
+    const hasExams = exams.length > 0;
 
     const editingExam = editingExamId ? exams.find((exam) => exam.id === editingExamId) ?? null : null;
 
@@ -142,16 +135,15 @@ export function PlannerApp({ messages }: PlannerAppProps): React.JSX.Element {
         const nextResults = getBestCombinations(formattedExams, sameTimeCount);
 
         if (nextResults === -1) {
-            setCalculateError(messages.calculateErrorMinExams);
+            showToast(messages.calculateErrorMinExams, { variant: "error" });
             return;
         }
 
         if (nextResults === -2) {
-            setCalculateError(messages.calculateErrorSameTime);
+            showToast(messages.calculateErrorSameTime, { variant: "error" });
             return;
         }
 
-        setCalculateError("");
         setResults(nextResults);
         setHasCalculated(true);
 
@@ -215,18 +207,19 @@ export function PlannerApp({ messages }: PlannerAppProps): React.JSX.Element {
 
             <section className="container workspace-section">
                 <div className="input planner-input">
-                    <div className="planner-layout">
+                    <div className={`planner-layout${hasExams ? "" : " planner-layout-empty"}`}>
                         <div className="planner-layout-main">
                             <div className="exams">
-                                {exams.length === 0 ? (
+                                {!hasExams ? (
                                     <div className="empty-add-actions" aria-label={messages.addExam}>
                                         <div className="empty-add-actions-links">
                                             <button
                                                 type="button"
-                                                className="link-action-button"
+                                                className="link-action-button button-with-icon"
                                                 onClick={() => openAddModal("single")}
                                                 disabled={isAddExamButtonLocked}
                                             >
+                                                <FiPlusCircle className="button-icon" aria-hidden="true" focusable="false" />
                                                 {messages.emptyStateAddManually}
                                             </button>
 
@@ -234,25 +227,16 @@ export function PlannerApp({ messages }: PlannerAppProps): React.JSX.Element {
 
                                             <button
                                                 type="button"
-                                                className="link-action-button"
+                                                className="link-action-button button-with-icon"
                                                 onClick={() => openAddModal("bulk")}
                                                 disabled={isAddExamButtonLocked}
                                             >
+                                                <FiClipboard className="button-icon" aria-hidden="true" focusable="false" />
                                                 {messages.emptyStateAddByPasting}
                                             </button>
                                         </div>
                                     </div>
-                                ) : (
-                                    <button
-                                        id="addExamButton"
-                                        type="button"
-                                        className="add-exam-button"
-                                        onClick={() => openAddModal("single")}
-                                        disabled={isAddExamButtonLocked}
-                                    >
-                                        {messages.addExam}
-                                    </button>
-                                )}
+                                ) : null}
 
                                 {exams.map((exam) => (
                                     <ExamCard
@@ -263,34 +247,54 @@ export function PlannerApp({ messages }: PlannerAppProps): React.JSX.Element {
                                         onDelete={deleteExam}
                                     />
                                 ))}
+
+                                {hasExams ? (
+                                    <button
+                                        id="addExamButton"
+                                        type="button"
+                                        className="add-exam-button button-with-icon"
+                                        onClick={() => openAddModal("single")}
+                                        disabled={isAddExamButtonLocked}
+                                    >
+                                        <FiPlusCircle className="button-icon" aria-hidden="true" focusable="false" />
+                                        {messages.addExam}
+                                    </button>
+                                ) : null}
                             </div>
                         </div>
 
-                        <aside className="planner-layout-side" aria-label={messages.sameTimeQuestion}>
-                            <div className="planner-side-block exams-at-the-same-time">
-                                <p>{messages.sameTimeQuestion}</p>
-                                <NumberPicker
-                                    value={sameTimeCount}
-                                    onDecrease={() =>
-                                        setSameTimeCount((current) => (current > 1 ? current - 1 : current))
-                                    }
-                                    onIncrease={() => setSameTimeCount((current) => current + 1)}
-                                    decrementLabel="Decrease exams prepared at the same time"
-                                    incrementLabel="Increase exams prepared at the same time"
-                                />
-                            </div>
+                        {hasExams ? (
+                            <>
+                                <div className="divider"></div>
 
-                            <div className="planner-side-block calculate">
-                                {calculateError ? (
-                                    <div id="alertCalculate">{calculateError}</div>
-                                ) : (
-                                    <div id="alertCalculate" />
-                                )}
-                                <button id="calculateButton" type="button" onClick={calculate}>
-                                    {messages.calculate}
-                                </button>
-                            </div>
-                        </aside>
+                                <aside className="planner-layout-side" aria-label={messages.sameTimeQuestion}>
+                                    <div className="planner-side-block exams-at-the-same-time">
+                                        <p>{messages.sameTimeQuestion}</p>
+                                        <NumberPicker
+                                            value={sameTimeCount}
+                                            onDecrease={() =>
+                                                setSameTimeCount((current) => (current > 1 ? current - 1 : current))
+                                            }
+                                            onIncrease={() => setSameTimeCount((current) => current + 1)}
+                                            decrementLabel="Decrease exams prepared at the same time"
+                                            incrementLabel="Increase exams prepared at the same time"
+                                        />
+                                    </div>
+
+                                    <div className="planner-side-block calculate">
+                                        <button
+                                            id="calculateButton"
+                                            className="button-with-icon"
+                                            type="button"
+                                            onClick={calculate}
+                                        >
+                                            <FiZap className="button-icon" aria-hidden="true" focusable="false" />
+                                            {messages.calculate}
+                                        </button>
+                                    </div>
+                                </aside>
+                            </>
+                        ) : null}
                     </div>
                 </div>
             </section>
@@ -303,13 +307,36 @@ export function PlannerApp({ messages }: PlannerAppProps): React.JSX.Element {
                 sectionRef={outputRef}
             />
 
-            <footer className="container page-footer">
-                <p>
-                    {messages.footerPrefix}{" "}
-                    <a href={messages.footerUrl} target="_blank" rel="noreferrer">
-                        {messages.footerAuthor}
-                    </a>
-                </p>
+            <footer className="page-footer">
+                <div className="container site-footer-inner">
+                    <p className="site-footer-copy">
+                        © {new Date().getFullYear()} {messages.heroTitle}
+                    </p>
+
+                    <div className="site-footer-links">
+                        <a
+                            className="site-footer-link"
+                            href="https://github.com/gabrielepedesini/"
+                            target="_blank"
+                            rel="noreferrer"
+                            aria-label="Open GitHub repository"
+                            title="GitHub"
+                        >
+                            <FaGithub className="site-footer-icon" aria-hidden="true" focusable="false" />
+                        </a>
+
+                        <a
+                            className="site-footer-link"
+                            href="https://www.linkedin.com/in/gabrielepedesini/"
+                            target="_blank"
+                            rel="noreferrer"
+                            aria-label="Open LinkedIn profile"
+                            title="LinkedIn"
+                        >
+                            <FaLinkedinIn className="site-footer-icon" aria-hidden="true" focusable="false" />
+                        </a>
+                    </div>
+                </div>
             </footer>
         </>
     );

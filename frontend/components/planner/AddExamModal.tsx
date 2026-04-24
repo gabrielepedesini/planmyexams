@@ -1,10 +1,13 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { FiChevronDown } from "react-icons/fi";
+import { FiCheck, FiClipboard, FiList, FiPlus, FiSave, FiTrash2, FiType, FiX } from "react-icons/fi";
 
 import { normalizeDates, toGbDate } from "@/lib/planner/date";
 import { parseBulkExamText } from "@/lib/planner/import";
 import type { DraftExam, ExamEntryMode, PlannerMessages } from "@/lib/planner/types";
+import { useToast } from "@/components/ToastProvider";
 
 import { DatePickerInput } from "./DatePickerInput";
 import { NumberPicker } from "./NumberPicker";
@@ -63,12 +66,13 @@ export function AddExamModal({
 
         return 0;
     });
-    const [errorMessage, setErrorMessage] = useState("");
     const [entryMode, setEntryMode] = useState<ExamEntryMode>(() =>
         mode === "add" ? initialEntryMode : "single",
     );
     const [bulkText, setBulkText] = useState("");
     const [isBulkAiPromptCopied, setIsBulkAiPromptCopied] = useState(false);
+
+    const { showToast } = useToast();
 
     const nextDateId = useRef(mode === "edit" && initialDraft ? Math.max(initialDraft.dates.length, 1) : 1);
     const nameInputRef = useRef<HTMLInputElement>(null);
@@ -127,7 +131,7 @@ export function AddExamModal({
         const parsed = parseBulkExamText(bulkText);
 
         if ("error" in parsed) {
-            setErrorMessage(getBulkErrorMessage(parsed.error));
+            showToast(getBulkErrorMessage(parsed.error), { variant: "error" });
             return;
         }
 
@@ -135,16 +139,14 @@ export function AddExamModal({
         const uniqueImportedNames = new Set(importedNames);
 
         if (uniqueImportedNames.size !== importedNames.length) {
-            setErrorMessage(messages.modalErrorDuplicateName);
+            showToast(messages.modalErrorDuplicateName, { variant: "error" });
             return;
         }
 
         if (importedNames.some((name) => existingNames.some((existingName) => existingName === name))) {
-            setErrorMessage(messages.modalErrorDuplicateName);
+            showToast(messages.modalErrorDuplicateName, { variant: "error" });
             return;
         }
-
-        setErrorMessage("");
         onSaveBulk(parsed.exams);
     };
 
@@ -166,28 +168,26 @@ export function AddExamModal({
         const dateValues = dateFields.map((field) => field.value);
 
         if (!trimmedName) {
-            setErrorMessage(messages.modalErrorNoName);
+            showToast(messages.modalErrorNoName, { variant: "error" });
             return;
         }
 
         if (dateValues.some((value) => !value)) {
-            setErrorMessage(messages.modalErrorMissingDates);
+            showToast(messages.modalErrorMissingDates, { variant: "error" });
             return;
         }
 
         if (existingNames.some((name) => name === trimmedName)) {
-            setErrorMessage(messages.modalErrorDuplicateName);
+            showToast(messages.modalErrorDuplicateName, { variant: "error" });
             return;
         }
 
         const normalizedDates = normalizeDates(dateValues);
 
         if (normalizedDates.length === 0) {
-            setErrorMessage(messages.modalErrorMissingDates);
+            showToast(messages.modalErrorMissingDates, { variant: "error" });
             return;
         }
-
-        setErrorMessage("");
         onSave({
             name: trimmedName,
             dates: normalizedDates,
@@ -199,7 +199,7 @@ export function AddExamModal({
         <div className="exam-popup-background show" onClick={onClose} aria-modal="true" role="dialog">
             <div className="exam-popup" onClick={(event) => event.stopPropagation()}>
                 <button className="close-exam-popup" type="button" onClick={onClose} aria-label="Close">
-                    ✕
+                    <FiX aria-hidden="true" focusable="false" />
                 </button>
 
                 <h2>{mode === "edit" ? messages.editExamModalTitle : messages.addExamModalTitle}</h2>
@@ -207,24 +207,24 @@ export function AddExamModal({
                 {mode === "add" ? (
                     <div className="entry-mode-switch" role="group" aria-label={messages.entryModeLabel}>
                         <button
-                            className={`entry-mode-button ${entryMode === "single" ? "entry-mode-button-active" : ""}`}
+                            className={`entry-mode-button button-with-icon ${entryMode === "single" ? "entry-mode-button-active" : ""}`}
                             type="button"
                             onClick={() => {
                                 setEntryMode("single");
-                                setErrorMessage("");
                             }}
                         >
+                            <FiType className="button-icon" aria-hidden="true" focusable="false" />
                             {messages.entryModeSingle}
                         </button>
 
                         <button
-                            className={`entry-mode-button ${entryMode === "bulk" ? "entry-mode-button-active" : ""}`}
+                            className={`entry-mode-button button-with-icon ${entryMode === "bulk" ? "entry-mode-button-active" : ""}`}
                             type="button"
                             onClick={() => {
                                 setEntryMode("bulk");
-                                setErrorMessage("");
                             }}
                         >
+                            <FiList className="button-icon" aria-hidden="true" focusable="false" />
                             {messages.entryModeBulk}
                         </button>
                     </div>
@@ -248,12 +248,26 @@ export function AddExamModal({
                         />
 
                         <details className="bulk-help-accordion">
-                            <summary>{messages.bulkSyntaxAccordionTitle}</summary>
+                            <summary>
+                                <span>{messages.bulkSyntaxAccordionTitle}</span>
+                                <FiChevronDown className="bulk-help-accordion-icon" aria-hidden="true" focusable="false" />
+                            </summary>
                             <p>{messages.bulkSyntaxAccordionBody}</p>
+
+                            <textarea
+                                className="bulk-syntax-example-textarea"
+                                value={messages.bulkSyntaxExample}
+                                readOnly
+                                rows={7}
+                                spellCheck={false}
+                            />
                         </details>
 
                         <details className="bulk-help-accordion">
-                            <summary>{messages.bulkAiAccordionTitle}</summary>
+                            <summary>
+                                <span>{messages.bulkAiAccordionTitle}</span>
+                                <FiChevronDown className="bulk-help-accordion-icon" aria-hidden="true" focusable="false" />
+                            </summary>
                             <p>{messages.bulkAiAccordionBody}</p>
                             <p className="bulk-ai-prompt-title">{messages.bulkAiPromptTitle}</p>
 
@@ -265,7 +279,12 @@ export function AddExamModal({
                                 spellCheck={false}
                             />
 
-                            <button className="button-alt bulk-ai-copy-button" type="button" onClick={copyBulkAiPrompt}>
+                            <button
+                                className="button-alt bulk-ai-copy-button button-with-icon"
+                                type="button"
+                                onClick={copyBulkAiPrompt}
+                            >
+                                <FiClipboard className="button-icon" aria-hidden="true" focusable="false" />
                                 {isBulkAiPromptCopied ? messages.bulkAiPromptCopied : messages.bulkAiPromptCopy}
                             </button>
                         </details>
@@ -302,14 +321,15 @@ export function AddExamModal({
                                             onClick={() => removeDateField(field.id)}
                                             aria-label={messages.delete}
                                         >
-                                            −
+                                            <FiTrash2 className="button-icon" aria-hidden="true" focusable="false" />
                                         </button>
                                     ) : null}
                                 </div>
                             ))}
                         </div>
 
-                        <button className="button-alt add-date-button" type="button" onClick={addDateField}>
+                        <button className="add-date-button button-with-icon" type="button" onClick={addDateField}>
+                            <FiPlus className="button-icon" aria-hidden="true" focusable="false" />
                             {messages.addDate}
                         </button>
 
@@ -327,13 +347,16 @@ export function AddExamModal({
                     </>
                 )}
 
-                {errorMessage ? <div id="alertAddExam">{errorMessage}</div> : <div id="alertAddExam" />}
-
                 <button
-                    className="button"
+                    className="button add-exam-save-button button-with-icon"
                     type="button"
                     onClick={mode === "add" && entryMode === "bulk" ? saveBulkExams : saveExam}
                 >
+                    {mode === "add" && entryMode === "bulk" ? (
+                        <FiCheck className="button-icon" aria-hidden="true" focusable="false" />
+                    ) : (
+                        <FiSave className="button-icon" aria-hidden="true" focusable="false" />
+                    )}
                     {mode === "add" && entryMode === "bulk" ? messages.bulkPasteSave : messages.save}
                 </button>
             </div>

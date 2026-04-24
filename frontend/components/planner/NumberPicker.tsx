@@ -1,3 +1,5 @@
+import { FiMinus, FiPlus } from "react-icons/fi";
+
 type NumberPickerProps = {
     value: number;
     onDecrease: () => void;
@@ -16,11 +18,11 @@ export function NumberPicker({
     return (
         <div className="custom-number-picker">
             <button className="picker-decrement" onClick={onDecrease} type="button" aria-label={decrementLabel}>
-                -
+                <FiMinus aria-hidden="true" focusable="false" />
             </button>
             <div className="picker-number">{value}</div>
             <button className="picker-increment" onClick={onIncrease} type="button" aria-label={incrementLabel}>
-                +
+                <FiPlus aria-hidden="true" focusable="false" />
             </button>
         </div>
     );
