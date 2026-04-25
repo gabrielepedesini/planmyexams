@@ -34,7 +34,7 @@
         "bulkAiAccordionTitle": "Usa AI da immagine",
         "bulkAiAccordionBody": "Copia il prompt qui sotto, incollalo nel tuo chatbot AI, allega un'immagine con la lista esami e incolla qui il risultato generato in testo semplice.",
         "bulkAiPromptTitle": "Prompt da copiare",
-        "bulkAiPromptTemplate": "Ti inviero un'immagine contenente nomi esami e date possibili.\nEstrai tutti gli esami e restituisci SOLO testo semplice in questo formato esatto:\n\nExam: <NOME ESAME>\nDates:\n- dd/mm/yyyy\n- dd/mm/yyyy\n\nExam: <NOME ESAME>\nDates:\n- dd/mm/yyyy\n\nRegole:\n- Mantieni un blocco per ogni esame.\n- Separa i blocchi dei diversi esami con esattamente una riga vuota.\n- Usa il formato data dd/mm/yyyy.\n- Mantieni le etichette esatte 'Exam:' e 'Dates:' (maiuscole/minuscole uguali).\n- Ogni riga data deve iniziare con '- '.\n- NON usare blocchi di codice markdown (```), elenchi fuori dalle date o testo extra prima/dopo i blocchi.",
+        "bulkAiPromptTemplate": "Ti invierò un'immagine contenente i nomi degli esami e le possibili date.\nEstrai tutti gli esami e restituisci SOLO questo formato:\n\nExam: <NOME ESAME>\nDates:\n- dd/mm/yyyy\n- dd/mm/yyyy\n\nRegole:\n- Mantieni un blocco per ogni esame.\n- Separa i blocchi dei diversi esami con esattamente una riga vuota.\n- Usa il formato data dd/mm/yyyy.\n- Mantieni le etichette esatte 'Exam:' e 'Dates:'.\n- Restituisci il risultato come testo semplice markdown in un unico blocco di codice copiabile.\n- Non aggiungere spiegazioni o testo extra fuori dal blocco di codice.",
         "bulkAiPromptCopy": "Copia prompt",
         "bulkAiPromptCopied": "Prompt copiato",
         "addDate": "Aggiungi data",

@@ -473,6 +473,7 @@ section {
     width: 100%;
     font-size: 14px;
     padding: 6px 12px !important;
+    background: var(--surface-muted) !important;
 }
 
 /* ----- SIDE SETTINGS ----- */
