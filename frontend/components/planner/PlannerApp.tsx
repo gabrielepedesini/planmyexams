@@ -76,6 +76,9 @@ export function PlannerApp({ messages }: PlannerAppProps): React.JSX.Element {
                 ),
             );
 
+            setResults([]);
+            setHasCalculated(false);
+
             closeModal();
             return;
         }
@@ -89,6 +92,9 @@ export function PlannerApp({ messages }: PlannerAppProps): React.JSX.Element {
                 minDays,
             },
         ]);
+
+        setResults([]);
+        setHasCalculated(false);
 
         nextExamId.current += 1;
         closeModal();
@@ -109,6 +115,9 @@ export function PlannerApp({ messages }: PlannerAppProps): React.JSX.Element {
                 };
             }),
         ]);
+
+        setResults([]);
+        setHasCalculated(false);
 
         closeModal();
     };
