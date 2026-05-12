@@ -56,6 +56,7 @@
         "outputDescriptionExamPlural": "exams",
         "outputScoreHint": "Each combination has a score in the top right corner showing how optimal it is.",
         "combination": "Combination",
+        "downloadCsv": "Download CSV",
         "modalErrorNoName": "Please enter an exam name",
         "modalErrorMissingDates": "Please fill in all date fields",
         "modalErrorDuplicateName": "An exam with this name already exists: please use a different name",

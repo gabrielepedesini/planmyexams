@@ -56,6 +56,7 @@
         "outputDescriptionExamPlural": "esami",
         "outputScoreHint": "Ogni combinazione ha un punteggio in alto a destra che mostra quanto è ottimale.",
         "combination": "Combinazione",
+        "downloadCsv": "Scarica CSV",
         "modalErrorNoName": "Inserisci il nome dell'esame",
         "modalErrorMissingDates": "Compila tutti i campi data",
         "modalErrorDuplicateName": "Esiste già un esame con questo nome: usa un nome diverso",

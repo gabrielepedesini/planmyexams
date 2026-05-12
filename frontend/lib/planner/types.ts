@@ -74,6 +74,7 @@ export type PlannerMessages = {
     outputDescriptionExamPlural: string;
     outputScoreHint: string;
     combination: string;
+    downloadCsv: string;
     modalErrorNoName: string;
     modalErrorMissingDates: string;
     modalErrorDuplicateName: string;

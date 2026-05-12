@@ -1,4 +1,6 @@
 import { toGbDate } from "@/lib/planner/date";
+import { downloadExamCsv } from "@/lib/planner/csv";
+import { FiDownload } from "react-icons/fi";
 import type { CombinationResult, PlannerMessages } from "@/lib/planner/types";
 
 type ResultsSectionProps = {
@@ -39,6 +41,16 @@ export function ResultsSection({
 
                         return (
                             <article className={`combination-card ${rankClass}`} key={`${item.score}-${index}`}>
+                                <div className="combination-card-overlay">
+                                    <button
+                                        className="download-csv-button button-alt button-with-icon"
+                                        onClick={() => downloadExamCsv(item.combination)}
+                                        title="Download dates for calendar import"
+                                    >
+                                        <FiDownload className="button-icon" />
+                                        {messages.downloadCsv}
+                                    </button>
+                                </div>
                                 <div className="score-badge">{item.score.toFixed(0)}</div>
                                 <h3>
                                     {messages.combination} {index + 1}

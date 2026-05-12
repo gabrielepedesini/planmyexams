@@ -30,6 +30,7 @@ html.light {
     --accent-soft: #d8f2ef;
     --danger: #d14343;
     --success: #198754;
+    --overlay-light: rgba(15, 23, 42, 0.20);
     --overlay: rgba(15, 23, 42, 0.42);
     --shadow: 0 12px 30px rgba(12, 23, 40, 0.07);
     --selection: rgba(15, 118, 110, 0.18);
@@ -57,6 +58,7 @@ html.dark {
     --danger: #ff7f7f;
     --success: #50d094;
     --overlay: rgba(0, 0, 0, 0.65);
+    --overlay-light: rgba(131, 131, 131, 0.20);
     --shadow: 0 14px 36px rgba(0, 0, 0, 0.33);
     --selection: rgba(47, 185, 171, 0.22);
     --scrollbar: #263241;
@@ -696,6 +698,27 @@ section {
 .exam-date {
     color: var(--muted-text);
     font-size: 0.84rem;
+}
+
+/* ----- COMBINATION CARD HOVER OVERLAY ----- */
+
+.combination-card-overlay {
+    position: absolute;
+    inset: 0;
+    border-radius: 12px;
+    background: var(--overlay-light);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(3px);
+}
+
+.combination-card:hover .combination-card-overlay {
+    display: flex;
+}
+
+.download-csv-button {
+    width: fit-content;
 }
 
 /* ----- FOOTER ----- */
